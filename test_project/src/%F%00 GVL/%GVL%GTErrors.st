@@ -1,6 +1,6 @@
 {
-  "exclude_from_build": false, 
-  "link_always": false
+  "link_always": false, 
+  "exclude_from_build": false
 }
 !__DECLARATION__!
 //This is the textlist file for the system error messages, texts are added here and refered to in the code, this is read only

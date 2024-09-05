@@ -1,6 +1,6 @@
 {
-  "exclude_from_build": false, 
-  "link_always": false
+  "link_always": false, 
+  "exclude_from_build": false
 }
 !__DECLARATION__!
 {attribute 'qualified_only'}

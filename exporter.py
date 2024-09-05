@@ -1,12 +1,13 @@
 # We enable the new python 3 print syntax
 from __future__ import print_function
+
 import io
-import sys
+import json
 import os
 import re
 import shutil
+import sys
 import xml.etree.ElementTree as ET
-import json
 
 #############################################################
 #    ______                _   _
@@ -360,61 +361,61 @@ def handlePLCKBUS(object, path):
     os.remove(tempPath + ".xml")
     root = tree.getroot()
     list = {"BuildProperties": getObjectBuildProperties(object)}
-    if (
-        root.find(
-            './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Single[@Name="Name"]'
-        ).text
-        == "Kbus"
-    ):
-        object.export_io_mappings_as_csv(
-            os.path.join(path, "%KBUS%" + encodeObjectName(object) + ".csv")
-        )
-    else:
-        deviceInfo = root.find(
-            './StructuredView/Single/List2/Single/Single[@Name="Object"]/Single[@Name="DefaultDeviceInfo"]'
-        )
-        list["name"] = deviceInfo.find('./Single[@Name="Name"]').text or ""
-        list["vendor"] = deviceInfo.find('./Single[@Name="Vendor"]').text or ""
-        list["ordernumber"] = (
-            deviceInfo.find('./Single[@Name="OrderNumber"]').text or ""
-        )
-        networkInfo = root.find(
-            './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Dictionary/Entry/Value/Single/List2[@Name="ProtocolAddresses"]/Single/Single[@Name="Address"]'
-        )
-        list["ipaddress"] = networkInfo.text or ""
-        versionInfo = root.find(
-            './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Dictionary/Entry/Value/Single/Single[@Name="DeviceTypeVersion"]'
-        )
-        list["version"] = versionInfo.text or ""
-        path = os.path.join(path, "%PLC%" + encodeObjectName(object))
-        list["modules"] = []
-        children = object.find("Kbus")[0].get_children(False)
-        if len(children) > 0:
-            for index, child in enumerate(children):
-                child.export_native(tempPath + "%" + str(index) + ".xml", False)
-                tree = ET.parse(tempPath + "%" + str(index) + ".xml")
-                os.remove(tempPath + "%" + str(index) + ".xml")
-                root = tree.getroot()
-                deviceInfo = root.find(
-                    './StructuredView/Single/List2/Single/Single[@Name="Object"]/Single[@Name="DefaultDeviceInfo"]'
-                )
-                versionInfo = root.find(
-                    './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Dictionary/Entry/Value/Single/Single[@Name="DeviceTypeVersion"]'
-                )
-                list["modules"].append(
-                    {
-                        "name": deviceInfo.find('./Single[@Name="Name"]').text or "",
-                        "vendor": deviceInfo.find('./Single[@Name="Vendor"]').text
-                        or "",
-                        "ordernumber": deviceInfo.find(
-                            './Single[@Name="OrderNumber"]'
-                        ).text
-                        or "",
-                        "version": versionInfo.text or "",
-                    }
-                )
-        writeDataToFileUTF8(json.dumps(list, indent=2), path + ".json")
-        loopObjects(object, path)
+    # if (
+    #     root.find(
+    #         './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Single[@Name="Name"]'
+    #     ).text
+    #     == "Kbus"
+    # ):
+    #     object.export_io_mappings_as_csv(
+    #         os.path.join(path, "%KBUS%" + encodeObjectName(object) + ".csv")
+    #     )
+    # else:
+    #     deviceInfo = root.find(
+    #         './StructuredView/Single/List2/Single/Single[@Name="Object"]/Single[@Name="DefaultDeviceInfo"]'
+    #     )
+    #     list["name"] = deviceInfo.find('./Single[@Name="Name"]').text or ""
+    #     list["vendor"] = deviceInfo.find('./Single[@Name="Vendor"]').text or ""
+    #     list["ordernumber"] = (
+    #         deviceInfo.find('./Single[@Name="OrderNumber"]').text or ""
+    #     )
+    #     networkInfo = root.find(
+    #         './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Dictionary/Entry/Value/Single/List2[@Name="ProtocolAddresses"]/Single/Single[@Name="Address"]'
+    #     )
+    #     list["ipaddress"] = networkInfo.text or ""
+    #     versionInfo = root.find(
+    #         './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Dictionary/Entry/Value/Single/Single[@Name="DeviceTypeVersion"]'
+    #     )
+    #     list["version"] = versionInfo.text or ""
+    #     path = os.path.join(path, "%PLC%" + encodeObjectName(object))
+    #     list["modules"] = []
+    #     children = object.find("Kbus")[0].get_children(False)
+    #     if len(children) > 0:
+    #         for index, child in enumerate(children):
+    #             child.export_native(tempPath + "%" + str(index) + ".xml", False)
+    #             tree = ET.parse(tempPath + "%" + str(index) + ".xml")
+    #             os.remove(tempPath + "%" + str(index) + ".xml")
+    #             root = tree.getroot()
+    #             deviceInfo = root.find(
+    #                 './StructuredView/Single/List2/Single/Single[@Name="Object"]/Single[@Name="DefaultDeviceInfo"]'
+    #             )
+    #             versionInfo = root.find(
+    #                 './StructuredView/Single/List2/Single/Single[@Name="MetaObject"]/Dictionary/Entry/Value/Single/Single[@Name="DeviceTypeVersion"]'
+    #             )
+    #             list["modules"].append(
+    #                 {
+    #                     "name": deviceInfo.find('./Single[@Name="Name"]').text or "",
+    #                     "vendor": deviceInfo.find('./Single[@Name="Vendor"]').text
+    #                     or "",
+    #                     "ordernumber": deviceInfo.find(
+    #                         './Single[@Name="OrderNumber"]'
+    #                     ).text
+    #                     or "",
+    #                     "version": versionInfo.text or "",
+    #                 }
+    #             )
+    #     writeDataToFileUTF8(json.dumps(list, indent=2), path + ".json")
+    #     loopObjects(object, path)
 
 
 def handlePLCLogic(object, path):
@@ -532,11 +533,13 @@ def loopObjects(object, path):
 #                      |_|
 #######################################################################
 # Backup project before export
-srcdir = os.path.join(sys.argv[1], "ecp")
-backupdir = os.path.join(sys.argv[1], "ecp_at_export")
+srcdir = os.path.join(sys.argv[1], "project")
+backupdir = os.path.join(sys.argv[1], "project_at_export")
 if not os.path.exists(backupdir):
     os.makedirs(backupdir)
-shutil.copyfile(os.path.join(srcdir, "src.ecp"), os.path.join(backupdir, "src.ecp"))
+shutil.copyfile(
+    os.path.join(srcdir, "src.project"), os.path.join(backupdir, "src.project")
+)
 
 # Empty src directory
 root = os.path.join(sys.argv[1], "src")
@@ -544,10 +547,10 @@ if os.path.exists(root):
     shutil.rmtree(root)
 
 # Open project file file
-project = e_projects.open_project(os.path.join(srcdir, "src.ecp"))
+project = projects.open(os.path.join(srcdir, "src.project"))
 
 # Loop all project objects
 loopObjects(project, root)
 
 # Close project
-e_system.close_e_cockpit()
+project.close()
