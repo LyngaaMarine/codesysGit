@@ -532,9 +532,12 @@ def loopObjects(object, path):
 #                      | |
 #                      |_|
 #######################################################################
+
+projectPath = sys.argv[1] if len(sys.argv) > 1 else "default_value"
+
 # Backup project before export
-srcdir = os.path.join(sys.argv[1], "project")
-backupdir = os.path.join(sys.argv[1], "project_at_export")
+srcdir = os.path.join(projectPath, "project")
+backupdir = os.path.join(projectPath, "project_at_export")
 if not os.path.exists(backupdir):
     os.makedirs(backupdir)
 shutil.copyfile(
@@ -542,7 +545,7 @@ shutil.copyfile(
 )
 
 # Empty src directory
-root = os.path.join(sys.argv[1], "src")
+root = os.path.join(projectPath, "src")
 if os.path.exists(root):
     shutil.rmtree(root)
 

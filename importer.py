@@ -1,14 +1,14 @@
 # We enable the new python 3 print syntax
 from __future__ import print_function
-import sys
+
+import io
+import json
 import os
 import re
-import json
-import time
-import io
 import shutil
+import sys
+import time
 import traceback
-
 
 ###########################################################################################################################################
 ###########################################################################################################################################
@@ -525,18 +525,20 @@ def loopDir(creationObject, placementObject, path, sort):
 #######################################################################
 
 # Creates project and gets reference to project object
-project = e_projects.create_new_project()
+srcdir = os.path.join(sys.argv[1], "project")
+project = projects.create(os.path.join(srcdir, "src.project"), True)
 project.create_folder("_creationfolder_")
 creationfolder = project.find("_creationfolder_")[0]
 projectObject = creationfolder.parent
 creationfolder.remove()
 
-srcdir = os.path.join(sys.argv[1], "ecp")
-backupdir = os.path.join(sys.argv[1], "ecp_at_import")
+backupdir = os.path.join(sys.argv[1], "project_at_import")
 if not os.path.exists(backupdir):
     os.makedirs(backupdir)
-if os.path.exists(os.path.join(srcdir, "src.ecp")):
-    shutil.copyfile(os.path.join(srcdir, "src.ecp"), os.path.join(backupdir, "src.ecp"))
+if os.path.exists(os.path.join(srcdir, "src.project")):
+    shutil.copyfile(
+        os.path.join(srcdir, "src.project"), os.path.join(backupdir, "src.project")
+    )
 
 # Loops files in src directory
 loopDir(projectObject, None, os.path.join(sys.argv[1], "src"), True)
@@ -548,7 +550,7 @@ if os.path.exists(tempFilePath):
     os.remove(tempFilePath)
 
 # Save Project
-project.save_as(os.path.join(srcdir, "src.ecp"))
+project.save()
 
 # Close project
 # e_system.close_e_cockpit()
