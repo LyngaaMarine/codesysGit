@@ -1,8 +1,11 @@
 from __future__ import print_function
 
 project = projects.primary
-print(project)
-print(project.path)
+print(project.get_project_info())
+print(project.get_project_info().__class__)
+
+for test in dir(projects.__class__):
+    print(test)
 
 # print(projects.primary)
 # print(projects.primary.get_children())

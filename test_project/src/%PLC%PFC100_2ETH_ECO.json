@@ -1,0 +1,8 @@
+{
+  "allowSymbolicVarAccessInSyncWithIECCycle": false, 
+  "deviceID": {
+    "id": "1006 120C", 
+    "type": 4096, 
+    "version": "6.3.0.12"
+  }
+}

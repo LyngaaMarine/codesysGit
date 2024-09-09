@@ -1,0 +1,9 @@
+{
+  "allowSymbolicVarAccessInSyncWithIECCycle": false, 
+  "exclude_from_build": false, 
+  "deviceID": {
+    "id": "Wago 750-Series Local Bus Interface", 
+    "type": 32778, 
+    "version": "2.1.0.1"
+  }
+}

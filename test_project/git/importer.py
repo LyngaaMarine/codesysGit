@@ -10,17 +10,306 @@ import sys
 import time
 import traceback
 
+
+# ###########################################################################################################################################
+#    _    _      _
+#   | |  | |    | |
+#   | |__| | ___| |_ __   ___ _ __ ___
+#   |  __  |/ _ \ | '_ \ / _ \ '__/ __|
+#   | |  | |  __/ | |_) |  __/ |  \__ \
+#   |_|  |_|\___|_| .__/ \___|_|  |___/
+#                 | |
+#                 |_|
+# ###########################################################################################################################################
+def tryPrintObjectName(text, obj):
+    try:
+        print(text, obj.get_name())
+    except:
+        print(text, "none/root")
+
+
+def decodeMatch(match):
+    return chr(int(match.group(1)))
+
+
+def decodeObjectName(string):
+    return re.sub(r"{(\d+)}", decodeMatch, string)
+
+
+def fileContent(path):
+    f = io.open(file=path, mode="r", encoding="utf-8")
+    data = f.read()
+    f.close()
+    return data
+
+
+def trueFind(object, name):
+    children = object.get_children(False)
+    if children:
+        for child in children:
+            if child.get_name() == name:
+                return child
+
+
+defferedEnable = []
+
+
+def finishedDefferedEnable():
+    for item in defferedEnable:
+        item[0].exclude_from_build = item[1]
+
+
+def applyObjectBuildProperties(object, propsSet, defferEnable):
+    props = object.build_properties
+    if props:
+        if props.external_is_valid and "external" in propsSet:
+            props.external = propsSet["external"]
+        if props.enable_system_call_is_valid and "enable_system_call" in propsSet:
+            props.enable_system_call = propsSet["enable_system_call"]
+        if (
+            props.compiler_defines_is_valid
+            and "compiler_defines" in propsSet
+            and len(propsSet["compiler_defines"]) > 0
+        ):
+            props.compiler_defines = propsSet["compiler_defines"]
+        if props.link_always_is_valid and "link_always" in propsSet:
+            props.link_always = propsSet["link_always"]
+        if props.exclude_from_build_is_valid:
+            if "exclude_from_build" in propsSet:
+                if defferEnable:
+                    props.exclude_from_build = True
+                    defferedEnable.append([props, propsSet["exclude_from_build"]])
+                else:
+                    props.exclude_from_build = propsSet["exclude_from_build"]
+
+
+def dictToDeviceId(dict):
+    return DeviceID(dict["type"], dict["id"], dict["version"])
+
+
+# ###########################################################################################################################################
+#     _____                 _       _
+#    / ____|               (_)     | |
+#   | (___  _ __   ___  ___ _  __ _| |___
+#    \___ \| '_ \ / _ \/ __| |/ _` | / __|
+#    ____) | |_) |  __/ (__| | (_| | \__ \
+#   |_____/| .__/ \___|\___|_|\__,_|_|___/
+#          | |
+#          |_|
+# ###########################################################################################################################################
+def handleFolder(creationObject, placementObject, name, path, ext):
+    creationObject.create_folder(name)
+    finds = creationObject.find(name)
+    if finds:
+        self = finds[0]
+        if self is None:
+            self = trueFind(creationObject, name)
+    if self:
+        if placementObject:
+            self.move(placementObject, -1)
+        buildProps = json.loads(fileContent(path + ext))
+        applyObjectBuildProperties(self, buildProps, False)
+        if creationObject == placementObject:
+            loopDir(creationObject, self, path, False)
+        else:
+            loopDir(self, None, path, False)
+
+
+# ###########################################################################################################################################
+#    _____             _
+#   |  __ \           (_)
+#   | |  | | _____   ___  ___ ___
+#   | |  | |/ _ \ \ / / |/ __/ _ \
+#   | |__| |  __/\ V /| | (_|  __/
+#   |_____/ \___| \_/ |_|\___\___|
+#
+#
+# ###########################################################################################################################################
+
+
+def handleDevice(project, name, path, ext):
+    finds = project.find(name)
+    if len(finds) == 0:
+        jsonData = json.loads(fileContent(path + ext))
+        print(jsonData)
+        project.add(name, dictToDeviceId(jsonData["deviceID"]))
+        plc = project.find(name)[0]
+        loopDir(plc, plc, path, False)
+    else:
+        loopDir(finds[0], finds[0], path, False)
+
+
+def handlePLCLogic(plc, name, path, ext):
+    self = plc.find("Plc Logic")[0]
+    print(self)
+    loopDir(self, None, path, False)
+
+
+# ###########################################################################################################################################
+#    _____           _           _
+#   |  __ \         (_)         | |
+#   | |__) | __ ___  _  ___  ___| |_
+#   |  ___/ '__/ _ \| |/ _ \/ __| __|
+#   | |   | | | (_) | |  __/ (__| |_
+#   |_|   |_|  \___/| |\___|\___|\__|
+#                  _/ |
+#                 |__/
+# ###########################################################################################################################################
+
+
+# ###########################################################################################################################################
+#    _
+#   | |
+#   | |     ___   ___  _ __   ___ _ __ ___
+#   | |    / _ \ / _ \| '_ \ / _ \ '__/ __|
+#   | |___| (_) | (_) | |_) |  __/ |  \__ \
+#   |______\___/ \___/| .__/ \___|_|  |___/
+#                     | |
+#                     |_|
+# ###########################################################################################################################################
+
+
+def handleFile(creationObject, placementObject, path, file):
+    search = re.search("%.+%", file)
+    type = search.group()
+    split = os.path.splitext(file[search.span()[1] :])
+    objectname = decodeObjectName(split[0])
+    ext = split[1]
+    path = os.path.join(path, type + split[0])
+    try:
+        if type == "%F%" and ext == ".json":
+            handleFolder(creationObject, placementObject, objectname, path, ext)
+        # # Normals
+        # elif type == "%POU%" and ext == ".st":
+        #     handlePOU(creationObject, objectname, path, ext)
+        # elif type == "%DUT%" and ext == ".st":
+        #     handleDUT(creationObject, objectname, path, ext)
+        # elif type == "%GVL%" and ext == ".st":
+        #     handleGVL(creationObject, objectname, path, ext)
+        # elif type == "%ITF%" and ext == ".st":
+        #     handleInterface(creationObject, objectname, path, ext)
+        # elif type == "%PV%" and ext == ".xml":
+        #     handlePersistentVariables(creationObject, objectname, path, ext)
+        # # Members
+        # elif type == "%PRO%" and ext == ".st":
+        #     handleProperty(creationObject, placementObject, objectname, path, ext)
+        # elif type == "%ACT%" and ext == ".st":
+        #     handleAction(creationObject, placementObject, objectname, path, ext)
+        # elif type == "%METH%" and ext == ".st":
+        #     handleMethod(creationObject, placementObject, objectname, path, ext)
+        # elif type == "%TRAN%" and ext == ".st":
+        #     handleTransition(creationObject, placementObject, objectname, path, ext)
+        # # Specials
+        # elif type == "%TL%" and ext == ".json":  # Text List
+        #     handleTextList(creationObject, objectname, path, ext, False)
+        # elif type == "%GTL%" and ext == ".json":  # Global Text List
+        #     handleTextList(creationObject, objectname, path, ext, True)
+        # elif type == "%IMP%" and ext == ".json":  # Image Pool
+        #     handleImagePool(creationObject, objectname, path, ext)
+        # elif type == "%PS%" and ext == ".xml":  # Project Settings
+        #     handleProjectSettings(creationObject, path, ext)
+        # elif type == "%LIB%" and ext == ".json":  # Library Manager
+        #     handleLibraryManager(creationObject, path, ext)
+        # # Visu
+        # elif type == "%VISU%" and ext == ".xml":
+        #     handleVisu(creationObject, path, ext)
+        # elif type == "%VIMA%" and ext == ".xml":
+        #     handleVisuManager(creationObject, objectname, path, ext)
+        # elif type == "%WV%" and ext == ".xml":
+        #     handleWebVisu(creationObject, path, ext)
+
+        # Device
+        elif type == "%PLC%" and ext == ".json":
+            handleDevice(creationObject, objectname, path, ext)
+        elif type == "%PLOG%" and ext == ".xml":
+            handlePLCLogic(creationObject, objectname, path, ext)
+
+        # Project
+
+        # # PLC
+        # elif type == "%APP%" and ext == ".xml":
+        #     handleApplication(creationObject, objectname, path)
+        # elif type == "%TC%" and ext == ".xml":
+        #     handleTaskConfiguration(creationObject, objectname, path)
+        # elif type == "%TSK%" and ext == ".xml":
+        #     handleTask(creationObject, path)
+    except Exception as e:
+        print("Error: ", e)
+        print("Error in: ", objectname, path)
+        traceback.print_exc()
+
+
+objectOrder = [
+    "%LIB%Library Manager.json",
+    "%GTL%GlobalTextList.json",
+    "%TC%Task configuration.xml",
+    "%VIMA%Visualization Manager.xml",
+]
+
+
+def loopDir(creationObject, placementObject, path, sort):
+    if os.path.exists(path):
+        for root, dirs, files in os.walk(path):
+            if sort:
+                ordered = [element for element in objectOrder if element in files]
+                ordered.extend(y for y in files if y not in ordered)
+                files = ordered
+            for file in files:
+                handleFile(creationObject, placementObject, path, file)
+            break
+
+
+#######################################################################
+#     _____           _       _      _____ _             _
+#    / ____|         (_)     | |    / ____| |           | |
+#   | (___   ___ _ __ _ _ __ | |_  | (___ | |_ __ _ _ __| |_ ___
+#    \___ \ / __| '__| | '_ \| __|  \___ \| __/ _` | '__| __/ __|
+#    ____) | (__| |  | | |_) | |_   ____) | || (_| | |  | |_\__ \
+#   |_____/ \___|_|  |_| .__/ \__| |_____/ \__\__,_|_|   \__|___/
+#                      | |
+#                      |_|
+#######################################################################
+
+structPath = os.path.dirname(os.path.dirname(sys.argv[0]))
+projectPath = os.path.join(structPath, "project")
+backupPath = os.path.join(structPath, "project_at_import")
+srcPath = os.path.join(structPath, "src")
+
+project = projects.primary
+
+# Save project if open then close
+if project is not None:
+    project.save()
+    project.close()
+
+# Backup project
+if not os.path.exists(backupPath):
+    os.makedirs(backupPath)
+if os.path.exists(os.path.join(projectPath, "src.project")):
+    shutil.copyfile(
+        os.path.join(projectPath, "src.project"),
+        os.path.join(backupPath, "src.project"),
+    )
+
+# Delete project and create new
+if os.path.exists(projectPath):
+    shutil.rmtree(projectPath)
+    os.makedirs(projectPath)
+
+project = projects.create(os.path.join(projectPath, "src.project"), True)
+
+#  Loops files in src directory
+loopDir(project, None, srcPath, True)
+finishedDefferedEnable()
+
+# Close when noui if possible
+# project.close()
+
+
 # ###########################################################################################################################################
 # ###########################################################################################################################################
 # ###########################################################################################################################################
 # # Helpers
-
-
-# def tryPrintObjectName(text, obj):
-#     try:
-#         print(text, obj.get_name())
-#     except:
-#         print(text, "none/root")
 
 
 # def decodeMatch(match):
@@ -36,14 +325,6 @@ import traceback
 #         return str(object.type)
 #     else:
 #         return "root"
-
-
-# def trueFind(object, name):
-#     children = object.get_children(False)
-#     if children:
-#         for child in children:
-#             if child.get_name() == name:
-#                 return child
 
 
 # def trueFindDevice(name):
@@ -66,13 +347,6 @@ import traceback
 #         return False
 
 
-# def fileContent(path):
-#     f = io.open(file=path, mode="r", encoding="utf-8")
-#     data = f.read()
-#     f.close()
-#     return data
-
-
 # tempFilePath = os.path.join(sys.argv[1], "tempFile")
 
 
@@ -89,62 +363,6 @@ import traceback
 #     object.textual_declaration.replace(parts[0][:-1])
 #     if object.has_textual_implementation:
 #         object.textual_implementation.append(parts[1][1:])
-
-
-# defferedEnable = []
-
-
-# def applyObjectBuildProperties(object, propsSet, defferEnable):
-#     props = object.build_properties
-#     if props:
-#         if props.external_is_valid and "external" in propsSet:
-#             props.external = propsSet["external"]
-#         if props.enable_system_call_is_valid and "enable_system_call" in propsSet:
-#             props.enable_system_call = propsSet["enable_system_call"]
-#         if (
-#             props.compiler_defines_is_valid
-#             and "compiler_defines" in propsSet
-#             and len(propsSet["compiler_defines"]) > 0
-#         ):
-#             props.compiler_defines = propsSet["compiler_defines"]
-#         if props.link_always_is_valid and "link_always" in propsSet:
-#             props.link_always = propsSet["link_always"]
-#         if props.exclude_from_build_is_valid:
-#             if "exclude_from_build" in propsSet:
-#                 if defferEnable:
-#                     props.exclude_from_build = True
-#                     defferedEnable.append([props, propsSet["exclude_from_build"]])
-#                 else:
-#                     props.exclude_from_build = propsSet["exclude_from_build"]
-
-
-# def finishedDefferedEnable():
-#     for item in defferedEnable:
-#         item[0].exclude_from_build = item[1]
-
-
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# # Handlers
-
-
-# def handleFolder(creationObject, placementObject, name, path, ext):
-#     creationObject.create_folder(name)
-#     finds = creationObject.find(name)
-#     if finds:
-#         self = finds[0]
-#         if self is None:
-#             self = trueFind(creationObject, name)
-#     if self:
-#         if placementObject:
-#             self.move(placementObject, -1)
-#         buildProps = json.loads(fileContent(path + ext))
-#         applyObjectBuildProperties(self, buildProps, False)
-#         if creationObject == placementObject:
-#             loopDir(creationObject, self, path, False)
-#         else:
-#             loopDir(self, None, path, False)
 
 
 # ###########################################################################################################################################
@@ -371,37 +589,6 @@ import traceback
 
 # ###########################################################################################################################################
 # # PLC
-# plclist = []
-
-
-# def handlePLC(name, path, ext):
-#     jsonData = json.loads(fileContent(path + ext))
-#     deviceTypes = e_device_catalog.find_device_type(
-#         jsonData["ordernumber"], jsonData["version"]
-#     )
-#     plc = project.add_device(deviceTypes[0], 1)[0]
-#     plclist.append({"plc": plc, "name": name})
-#     plc.ip_address = jsonData["ipaddress"]
-#     for index, module in enumerate(jsonData["modules"]):
-#         type = e_device_catalog.find_device_type(
-#             module["ordernumber"], module["version"]
-#         )
-#         plc.add_module(type[0], index, 1)
-#     plc.import_io_mappings_from_csv(os.path.join(path, "%KBUS%Kbus.csv"))
-#     loopDir(plc, None, path, False)
-
-
-# def plcRename():
-#     time.sleep(2)
-#     for plc in plclist:
-#         plc["plc"].rename(plc["name"])
-
-
-# def handlePLCLogic(creationObject, name, path, ext):
-#     creationObject.import_native(path + ext)
-#     self = trueFind(creationObject, name)
-#     if self:
-#         loopDir(self, None, path, False)
 
 
 # def handleApplication(creationObject, name, path):
@@ -420,137 +607,3 @@ import traceback
 
 # def handleTask(creationObject, path):
 #     creationObject.import_native(path + ".xml")
-
-
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# # Loopers
-
-
-# def handleFile(creationObject, placementObject, path, file):
-#     search = re.search("%.+%", file)
-#     type = search.group()
-#     split = os.path.splitext(file[search.span()[1] :])
-#     objectname = decodeObjectName(split[0])
-#     ext = split[1]
-#     path = os.path.join(path, type + split[0])
-#     try:
-#         if type == "%F%" and ext == ".json":
-#             handleFolder(creationObject, placementObject, objectname, path, ext)
-#         # Normals
-#         elif type == "%POU%" and ext == ".st":
-#             handlePOU(creationObject, objectname, path, ext)
-#         elif type == "%DUT%" and ext == ".st":
-#             handleDUT(creationObject, objectname, path, ext)
-#         elif type == "%GVL%" and ext == ".st":
-#             handleGVL(creationObject, objectname, path, ext)
-#         elif type == "%ITF%" and ext == ".st":
-#             handleInterface(creationObject, objectname, path, ext)
-#         elif type == "%PV%" and ext == ".xml":
-#             handlePersistentVariables(creationObject, objectname, path, ext)
-#         # Members
-#         elif type == "%PRO%" and ext == ".st":
-#             handleProperty(creationObject, placementObject, objectname, path, ext)
-#         elif type == "%ACT%" and ext == ".st":
-#             handleAction(creationObject, placementObject, objectname, path, ext)
-#         elif type == "%METH%" and ext == ".st":
-#             handleMethod(creationObject, placementObject, objectname, path, ext)
-#         elif type == "%TRAN%" and ext == ".st":
-#             handleTransition(creationObject, placementObject, objectname, path, ext)
-#         # Specials
-#         elif type == "%TL%" and ext == ".json":  # Text List
-#             handleTextList(creationObject, objectname, path, ext, False)
-#         elif type == "%GTL%" and ext == ".json":  # Global Text List
-#             handleTextList(creationObject, objectname, path, ext, True)
-#         elif type == "%IMP%" and ext == ".json":  # Image Pool
-#             handleImagePool(creationObject, objectname, path, ext)
-#         elif type == "%PS%" and ext == ".xml":  # Project Settings
-#             handleProjectSettings(creationObject, path, ext)
-#         elif type == "%LIB%" and ext == ".json":  # Library Manager
-#             handleLibraryManager(creationObject, path, ext)
-#         # Visu
-#         elif type == "%VISU%" and ext == ".xml":
-#             handleVisu(creationObject, path, ext)
-#         elif type == "%VIMA%" and ext == ".xml":
-#             handleVisuManager(creationObject, objectname, path, ext)
-#         elif type == "%WV%" and ext == ".xml":
-#             handleWebVisu(creationObject, path, ext)
-#         # PLC
-#         elif type == "%PLC%" and ext == ".json":
-#             handlePLC(objectname, path, ext)
-#         elif type == "%PLOG%" and ext == ".xml":
-#             handlePLCLogic(creationObject, objectname, path, ext)
-#         elif type == "%APP%" and ext == ".xml":
-#             handleApplication(creationObject, objectname, path)
-#         elif type == "%TC%" and ext == ".xml":
-#             handleTaskConfiguration(creationObject, objectname, path)
-#         elif type == "%TSK%" and ext == ".xml":
-#             handleTask(creationObject, path)
-#     except Exception as e:
-#         print("Error: ", e)
-#         tryPrintObjectName("Error in: ", objectname, path)
-#         traceback.print_exc()
-
-
-# objectOrder = [
-#     "%LIB%Library Manager.json",
-#     "%GTL%GlobalTextList.json",
-#     "%TC%Task configuration.xml",
-#     "%VIMA%Visualization Manager.xml",
-# ]
-
-
-# def loopDir(creationObject, placementObject, path, sort):
-#     if os.path.exists(path):
-#         for root, dirs, files in os.walk(path):
-#             if sort:
-#                 ordered = [element for element in objectOrder if element in files]
-#                 ordered.extend(y for y in files if y not in ordered)
-#                 files = ordered
-#             for file in files:
-#                 handleFile(creationObject, placementObject, path, file)
-#             break
-
-
-# #######################################################################
-# #     _____           _       _      _____ _             _
-# #    / ____|         (_)     | |    / ____| |           | |
-# #   | (___   ___ _ __ _ _ __ | |_  | (___ | |_ __ _ _ __| |_ ___
-# #    \___ \ / __| '__| | '_ \| __|  \___ \| __/ _` | '__| __/ __|
-# #    ____) | (__| |  | | |_) | |_   ____) | || (_| | |  | |_\__ \
-# #   |_____/ \___|_|  |_| .__/ \__| |_____/ \__\__,_|_|   \__|___/
-# #                      | |
-# #                      |_|
-# #######################################################################
-
-# # Creates project and gets reference to project object
-# srcdir = os.path.join(sys.argv[1], "project")
-# project = projects.create(os.path.join(srcdir, "src.project"), True)
-# project.create_folder("_creationfolder_")
-# creationfolder = project.find("_creationfolder_")[0]
-# projectObject = creationfolder.parent
-# creationfolder.remove()
-
-# backupdir = os.path.join(sys.argv[1], "project_at_import")
-# if not os.path.exists(backupdir):
-#     os.makedirs(backupdir)
-# if os.path.exists(os.path.join(srcdir, "src.project")):
-#     shutil.copyfile(
-#         os.path.join(srcdir, "src.project"), os.path.join(backupdir, "src.project")
-#     )
-
-# # Loops files in src directory
-# loopDir(projectObject, None, os.path.join(sys.argv[1], "src"), True)
-# plcRename()
-# finishedDefferedEnable()
-
-# # Cleanup
-# if os.path.exists(tempFilePath):
-#     os.remove(tempFilePath)
-
-# # Save Project
-# project.save()
-
-# # Close project
-# # e_system.close_e_cockpit()

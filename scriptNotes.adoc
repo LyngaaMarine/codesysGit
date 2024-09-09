@@ -24,3 +24,6 @@ Meth: add(name:str,devID: DeviceID) -> None
 Used to get the name of the object +
 Meth: get_name(resolve_localized_display_name=False) -> Str
 
+== ScriptDeviceObject
+Returns the device id of the device +
+Meth: get_device_identification() -> DeviceID
