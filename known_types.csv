@@ -1,64 +1,65 @@
-Known Name              Fixed Name              Type GUID                               Tested Syntetic     Tested Real Project
-Folder                                          738bea1e-99bb-4f04-90bb-a7a567e74e3a    ✓
+File Designator   Known Name              Fixed Name              Type GUID                               Tested Syntetic     Tested Real Project
+%F%               Folder                                          738bea1e-99bb-4f04-90bb-a7a567e74e3a    ✓
 
-Program		
-GVL                                             ffbfa93a-b94d-45fc-a329-229860183b1d    ✓
-POU Program                                     6f9dac99-8de1-4efc-8465-68ac443b7d08    ✓
-POU Program Action                              8ac092e5-3128-4e26-9e7e-11016c6684f2    ✓
-POU Program Method                              f8a58466-d7f6-439f-bbb8-d4600e41d099    ✓
-POU Program Property                            5a3b8626-d3e9-4f37-98b5-66420063d91e    ✓
-POU Program Property Getter                     792f2eb6-721e-4e64-ba20-bc98351056db    ✓
-POU Program Property Setter                     792f2eb6-721e-4e64-ba20-bc98351056db    ✓
-POU Program Transition                          a10c6218-cb94-436f-91c6-e1652575253d    ✓
-POU Function Block                              6f9dac99-8de1-4efc-8465-68ac443b7d08    ✓
-POU Function Block Action                       8ac092e5-3128-4e26-9e7e-11016c6684f2    ✓
-POU Function Block Method                       f8a58466-d7f6-439f-bbb8-d4600e41d099    ✓
-POU Function Block Property                     5a3b8626-d3e9-4f37-98b5-66420063d91e    ✓
-POU Function Block Property Getter              792f2eb6-721e-4e64-ba20-bc98351056db    ✓
-POU Function Block Property Setter              792f2eb6-721e-4e64-ba20-bc98351056db    ✓
-POU Function Block Transition                   a10c6218-cb94-436f-91c6-e1652575253d    ✓
-POU Function                                    6f9dac99-8de1-4efc-8465-68ac443b7d08    ✓
-DUT Struct                                      2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
-DUT Enum                                        2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
-DUT Alias                                       2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
-DUT Union                                       2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
-ITF                                             6654496c-404d-479a-aad2-8551054e5f1e    ✓
-ITF Method                                      f89f7675-27f1-46b3-8abb-b7da8e774ffd    ✓
-ITF Property                                    5a3b8626-d3e9-4f37-98b5-66420063d91e    ✓
-ITF Property Getter                             28747452-a93d-4b34-8d05-d2c6018edd7d    ✓
-ITF Property Setter                             28747452-a93d-4b34-8d05-d2c6018edd7d    ✓
-PersistentVars                                  261bd6e6-249c-4232-bb6f-84c2fbeef430
+                  Program		
+%GVL%             GVL                                             ffbfa93a-b94d-45fc-a329-229860183b1d    ✓
+%POU%             POU Program                                     6f9dac99-8de1-4efc-8465-68ac443b7d08    ✓
+%METH%            POU Program Action                              8ac092e5-3128-4e26-9e7e-11016c6684f2    ✓
+%METH%            POU Program Method                              f8a58466-d7f6-439f-bbb8-d4600e41d099    ✓
+%PRO%             POU Program Property                            5a3b8626-d3e9-4f37-98b5-66420063d91e    ✓
+%PRO%             POU Program Property Getter                     792f2eb6-721e-4e64-ba20-bc98351056db    ✓
+%PRO%             POU Program Property Setter                     792f2eb6-721e-4e64-ba20-bc98351056db    ✓
+%TRAN%            POU Program Transition                          a10c6218-cb94-436f-91c6-e1652575253d    ✓
+%POU%             POU Function Block                              6f9dac99-8de1-4efc-8465-68ac443b7d08    ✓
+%METH%            POU Function Block Action                       8ac092e5-3128-4e26-9e7e-11016c6684f2    ✓
+%METH%            POU Function Block Method                       f8a58466-d7f6-439f-bbb8-d4600e41d099    ✓
+%PRO%             POU Function Block Property                     5a3b8626-d3e9-4f37-98b5-66420063d91e    ✓
+%PRO%             POU Function Block Property Getter              792f2eb6-721e-4e64-ba20-bc98351056db    ✓
+%PRO%             POU Function Block Property Setter              792f2eb6-721e-4e64-ba20-bc98351056db    ✓
+%TRAN%            POU Function Block Transition                   a10c6218-cb94-436f-91c6-e1652575253d    ✓
+%POU%             POU Function                                    6f9dac99-8de1-4efc-8465-68ac443b7d08    ✓
+%DUT%             DUT Struct                                      2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
+%DUT%             DUT Enum                                        2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
+%DUT%             DUT Alias                                       2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
+%DUT%             DUT Union                                       2db5746d-d284-4425-9f7f-2663a34b0ebc    ✓
+%ITF%             ITF                                             6654496c-404d-479a-aad2-8551054e5f1e    ✓
+%METH%            ITF Method                                      f89f7675-27f1-46b3-8abb-b7da8e774ffd    ✓
+%PRO%             ITF Property                                    5a3b8626-d3e9-4f37-98b5-66420063d91e    ✓
+%PRO%             ITF Property Getter                             28747452-a93d-4b34-8d05-d2c6018edd7d    ✓
+%PRO%             ITF Property Setter                             28747452-a93d-4b34-8d05-d2c6018edd7d    ✓
+%PV%              PersistentVars                                  261bd6e6-249c-4232-bb6f-84c2fbeef430
 
-Visu		
-VisualizationStyle      __VisualizationStyle    8e687a04-7ca7-42d3-be06-fcbda676c5ef
-Visualization                                   f18bec89-9fef-401d-9953-2f11739a6808    ✓
-Visualization Manager   Visualization Manager   4d3fdb8f-ab50-4c35-9d3a-d4bb9bb9a628
-WebVisu                                         0fdbf158-1ae0-47d9-9269-cd84be308e9d
+                  Visu		
+%VISU%            Visualization                                   f18bec89-9fef-401d-9953-2f11739a6808    ✓
+%VIMA%            Visualization Manager   Visualization Manager   4d3fdb8f-ab50-4c35-9d3a-d4bb9bb9a628
+%WEVI%            WebVisu                                         0fdbf158-1ae0-47d9-9269-cd84be308e9d
 
 
-Special		
-GlobalTextList          GlobalTextList          63784cbb-9ba0-45e6-9d69-babf3f040511    ✓
-TextList                                        2bef0454-1bd3-412a-ac2c-af0f31dbc40f    ✓
-ImagePool                                       bb0b9044-714e-4614-ad3e-33cbdf34d16b    ✓
-Project Settings        Project Settings    	8753fe6f-4a22-4320-8103-e553c4fc8e04    ✓
-Library Manager         Library Manager         adb5cb65-8e1d-4a00-b70a-375ea27582f3    ✓
-Symbol                                          21d4fe94-4123-4e23-9091-ead220afbd1f
+                  Special		
+%TL%              TextList                                        2bef0454-1bd3-412a-ac2c-af0f31dbc40f    ✓
+%IMP%             ImagePool                                       bb0b9044-714e-4614-ad3e-33cbdf34d16b    ✓
+%LIB%             Library Manager         Library Manager         adb5cb65-8e1d-4a00-b70a-375ea27582f3    ✓
+%SYM%             Symbol                                          21d4fe94-4123-4e23-9091-ead220afbd1f
 
-PLC		
-PLC Logic                                       40b404f9-e5dc-42c6-907f-c89f4a517386    ✓
-Application                                     639b491f-5557-464c-af91-1471bac9f549    ✓   
-Task Configuration                              ae1de277-a207-4a28-9efb-456c06bd52f3    ✓
-Task                                            98a2708a-9b18-4f31-82ed-a1465b24fa2d    ✓
+                  Device		
+                  PLC                                             225bfe47-7336-4dbc-9419-4105a7c831fa    ✓
+                  MODBUS                                          e9159722-55bc-49e5-8034-fbd278ef718f
+                  Serial                                          e9159722-55bc-49e5-8034-fbd278ef718f
 
-Wago		
-Kbus                                            225bfe47-7336-4dbc-9419-4105a7c831fa    ✓
-PLC                                             225bfe47-7336-4dbc-9419-4105a7c831fa    ✓
-MODBUS                                          e9159722-55bc-49e5-8034-fbd278ef718f
-Serial                                          e9159722-55bc-49e5-8034-fbd278ef718f
+%PLOG%            PLC Logic                                       40b404f9-e5dc-42c6-907f-c89f4a517386    ✓
+%APP%             Application                                     639b491f-5557-464c-af91-1471bac9f549    ✓   
+%TC%              Task Configuration                              ae1de277-a207-4a28-9efb-456c06bd52f3    ✓
+%TSK%             Task                                            98a2708a-9b18-4f31-82ed-a1465b24fa2d    ✓
 
-Not Supported
-UnitConversion                                  9031c721-d39f-4557-8a8f-ab12b4a71ebc
-External File                                   a56744ff-693f-4597-95f9-0e1c529fffc2    
-RecipeManager                                   09ecc42e-586d-4a08-932f-5bdcac20bb55    
-Trace                                           f7aa3620-8073-4c91-b6ec-86ed9eb60303    
-Trend Recording Manager                         49395b8d-29d2-40db-a655-eae6a5627611    
+                  Project
+%GTL%             GlobalTextList          GlobalTextList          63784cbb-9ba0-45e6-9d69-babf3f040511    ✓
+%PS%              Project Settings        Project Settings        8753fe6f-4a22-4320-8103-e553c4fc8e04    ✓
+%PI%              Project Information     Project Information     085afe48-c5d8-4ea5-ab0d-b35701fa6009    ✓
+%VS%              VisualizationStyle      __VisualizationStyle    8e687a04-7ca7-42d3-be06-fcbda676c5ef
+
+                  Not Supported
+                  UnitConversion                                  9031c721-d39f-4557-8a8f-ab12b4a71ebc
+                  External File                                   a56744ff-693f-4597-95f9-0e1c529fffc2    
+                  RecipeManager                                   09ecc42e-586d-4a08-932f-5bdcac20bb55    
+                  Trace                                           f7aa3620-8073-4c91-b6ec-86ed9eb60303    
+                  Trend Recording Manager                         49395b8d-29d2-40db-a655-eae6a5627611    
