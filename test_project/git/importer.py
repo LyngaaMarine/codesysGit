@@ -63,7 +63,7 @@ def applyObjectBuildProperties(object, propsSet, defferEnable):
     props = object.build_properties
     if props:
         if props.external_is_valid and "external" in propsSet:
-            props.external = propsSet["external"]
+            props.external = propsSet["external"]v
         if props.enable_system_call_is_valid and "enable_system_call" in propsSet:
             props.enable_system_call = propsSet["enable_system_call"]
         if (
@@ -76,11 +76,12 @@ def applyObjectBuildProperties(object, propsSet, defferEnable):
             props.link_always = propsSet["link_always"]
         if props.exclude_from_build_is_valid:
             if "exclude_from_build" in propsSet:
-                if defferEnable:
-                    props.exclude_from_build = True
-                    defferedEnable.append([props, propsSet["exclude_from_build"]])
-                else:
-                    props.exclude_from_build = propsSet["exclude_from_build"]
+                props.exclude_from_build = propsSet["exclude_from_build"]
+                # if defferEnable:
+                #     props.exclude_from_build = True
+                #     defferedEnable.append([props, propsSet["exclude_from_build"]])
+                # else:
+                #     props.exclude_from_build = False
 
 
 def dictToDeviceId(dict):
@@ -131,7 +132,6 @@ def handleDevice(project, name, path, ext):
     finds = project.find(name)
     if len(finds) == 0:
         jsonData = json.loads(fileContent(path + ext))
-        print(jsonData)
         project.add(name, dictToDeviceId(jsonData["deviceID"]))
         plc = project.find(name)[0]
         loopDir(plc, plc, path, False)
@@ -141,7 +141,31 @@ def handleDevice(project, name, path, ext):
 
 def handlePLCLogic(plc, name, path, ext):
     self = plc.find("Plc Logic")[0]
-    print(self)
+    print("test")
+    print(path + ext)
+    buildProps = json.loads(fileContent(path + ext))
+    print(buildProps)
+    applyObjectBuildProperties(self, buildProps, False)
+    for child in self.get_children(False):
+        child.remove()
+    loopDir(self, None, path, False)
+
+
+def handleApplication(plclogic, name, path, ext):
+    plclogic.import_native(path + ext)
+    self = plclogic.find(name)[0]
+    loopDir(self, None, path, True)
+
+
+def handleTaskConfiguration(application, name, path):
+    self = application.create_task_configuration()
+    loopDir(self, None, path, False)
+
+
+def handleTask(taskConfigurator, name, path, ext):
+    self = taskConfigurator.create_task(name)
+    buildProps = json.loads(fileContent(path + ext))
+    print(buildProps)
     loopDir(self, None, path, False)
 
 
@@ -221,18 +245,15 @@ def handleFile(creationObject, placementObject, path, file):
         # Device
         elif type == "%PLC%" and ext == ".json":
             handleDevice(creationObject, objectname, path, ext)
-        elif type == "%PLOG%" and ext == ".xml":
+        elif type == "%PLOG%" and ext == ".json":
             handlePLCLogic(creationObject, objectname, path, ext)
+        elif type == "%APP%" and ext == ".xml":
+            handleApplication(creationObject, objectname, path, ext)
+        elif type == "%TC%" and ext == ".json":
+            handleTaskConfiguration(creationObject, objectname, path)
+        elif type == "%TSK%" and ext == ".json":
+            handleTask(creationObject, path, ext)
 
-        # Project
-
-        # # PLC
-        # elif type == "%APP%" and ext == ".xml":
-        #     handleApplication(creationObject, objectname, path)
-        # elif type == "%TC%" and ext == ".xml":
-        #     handleTaskConfiguration(creationObject, objectname, path)
-        # elif type == "%TSK%" and ext == ".xml":
-        #     handleTask(creationObject, path)
     except Exception as e:
         print("Error: ", e)
         print("Error in: ", objectname, path)
@@ -300,7 +321,7 @@ project = projects.create(os.path.join(projectPath, "src.project"), True)
 
 #  Loops files in src directory
 loopDir(project, None, srcPath, True)
-finishedDefferedEnable()
+# finishedDefferedEnable()
 
 # Close when noui if possible
 # project.close()
@@ -587,23 +608,3 @@ finishedDefferedEnable()
 #     creationObject.import_native(path + ext)
 
 
-# ###########################################################################################################################################
-# # PLC
-
-
-# def handleApplication(creationObject, name, path):
-#     device = trueFindDevice(creationObject.parent.get_name())
-#     project.import_app_native([device.device_guid], path + ".xml")
-#     app = trueFind(creationObject, name)
-#     loopDir(app, None, path, True)
-
-
-# def handleTaskConfiguration(creationObject, name, path):
-#     creationObject.import_native(path + ".xml")
-#     obj = trueFind(creationObject, name)
-#     if obj:
-#         loopDir(obj, None, path, False)
-
-
-# def handleTask(creationObject, path):
-#     creationObject.import_native(path + ".xml")

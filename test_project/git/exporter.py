@@ -135,8 +135,41 @@ def handlePLC(object, path):
 
 def handlePLCLogic(object, path):
     path = os.path.join(path, "%PLOG%" + encodeObjectName(object))
+    writeDataToFileUTF8(
+        json.dumps(getObjectBuildProperties(object), indent=2), path + ".json"
+    )
+    loopObjects(object, path)
+
+
+def handleApplication(object, path):
+    path = os.path.join(path, "%APP%" + encodeObjectName(object))
     handleNativeExport(object, path + ".xml", False)
     loopObjects(object, path)
+
+
+def handleTaskConfiguration(object, path):
+    path = os.path.join(path, "%TC%" + encodeObjectName(object))
+    writeDataToFileUTF8(
+        json.dumps(getObjectBuildProperties(object), indent=2), path + ".json"
+    )
+    loopObjects(object, path)
+
+
+kindsOfTasks = [
+    "None",
+    "Cyclic",
+    "Freewheeling",
+    "Event",
+    "ExternalEvent",
+    "Status",
+    "ParentSynchron",
+]
+
+
+def handleTask(object, path):
+    dict = getObjectBuildProperties(object)
+    dict["kindOfTask"] = kindsOfTasks[int(object.kind_of_task)]
+    writeDataToFileUTF8(json.dumps(dict, indent=2), path + ".json")
 
 
 # ###########################################################################################################################################
@@ -164,8 +197,6 @@ def handlePLCLogic(object, path):
 # Loopers
 def handleObject(object, path):
     type = str(object.type)
-    print(type)
-    tryPrintObjectName("Type: ", object)
     if type == "738bea1e-99bb-4f04-90bb-a7a567e74e3a":  # Folder
         handleFolder(object, path)
 
@@ -217,12 +248,12 @@ def handleObject(object, path):
         handlePLC(object, path)
     elif type == "40b404f9-e5dc-42c6-907f-c89f4a517386":  # PLC Logic
         handlePLCLogic(object, path)
-    # elif type == "639b491f-5557-464c-af91-1471bac9f549":  # Application
-    #     handleApplication(object, path)
-    # elif type == "ae1de277-a207-4a28-9efb-456c06bd52f3":  # Task Configuration
-    #     handleTaskConfiguration(object, path)
-    # elif type == "98a2708a-9b18-4f31-82ed-a1465b24fa2d":  # Task
-    #     handleTask(object, path)
+    elif type == "639b491f-5557-464c-af91-1471bac9f549":  # Application
+        handleApplication(object, path)
+    elif type == "ae1de277-a207-4a28-9efb-456c06bd52f3":  # Task Configuration
+        handleTaskConfiguration(object, path)
+    elif type == "98a2708a-9b18-4f31-82ed-a1465b24fa2d":  # Task
+        handleTask(object, path)
 
     # # Project
     # elif type == "8753fe6f-4a22-4320-8103-e553c4fc8e04":  # Project Settings
@@ -539,24 +570,6 @@ loopObjects(project, srcPath)
 #     handleNativeExport(
 #         object, os.path.join(path, "%VIMA%" + encodeObjectName(object)) + ".xml", True
 #     )
-
-
-# def handleApplication(object, path):
-#     path = os.path.join(path, "%APP%" + encodeObjectName(object))
-#     handleNativeExport(object, path + ".xml", False)
-#     loopObjects(object, path)
-
-
-# def handleTaskConfiguration(object, path):
-#     path = os.path.join(path, "%TC%" + encodeObjectName(object))
-#     handleNativeExport(object, path + ".xml", False)
-#     loopObjects(object, path)
-
-
-# def handleTask(object, path):
-#     path = os.path.join(path, "%TSK%" + encodeObjectName(object))
-#     handleNativeExport(object, path + ".xml", False)
-
 
 # def handleConnection(object, path):
 #     path = os.path.join(path, "%CONN%" + encodeObjectName(object))

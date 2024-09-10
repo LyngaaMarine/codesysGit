@@ -27,3 +27,13 @@ Meth: get_name(resolve_localized_display_name=False) -> Str
 == ScriptDeviceObject
 Returns the device id of the device +
 Meth: get_device_identification() -> DeviceID
+
+== ScriptApplication
+Creates a task configuration on the application +
+Meth: create_task_configuration() -> ScriptTaskConfigObject
+
+== ScriptTaskConfigObject
+Creates a task on the task configurator +
+Meth: create_task(name) -> ScriptTaskObject
+
+== ScriptTaskObject
