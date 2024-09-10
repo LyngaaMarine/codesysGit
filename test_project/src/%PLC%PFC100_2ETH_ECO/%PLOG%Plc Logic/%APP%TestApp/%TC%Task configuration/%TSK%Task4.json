@@ -1,0 +1,22 @@
+{
+  "interval": "t#50ms", 
+  "externalEvent": "", 
+  "intervalUnit": "ms", 
+  "coreBinding": -2, 
+  "priority": "15", 
+  "kindOfTask": "Freewheeling", 
+  "parentSynchronTask": "", 
+  "pous": [
+    {
+      "pou": "Task4", 
+      "comment": ""
+    }
+  ], 
+  "event": "", 
+  "watchdog": {
+    "enabled": false, 
+    "sensitivity": "1", 
+    "time": "", 
+    "timeUnit": "ms"
+  }
+}

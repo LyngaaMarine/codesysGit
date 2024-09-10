@@ -63,7 +63,7 @@ def applyObjectBuildProperties(object, propsSet, defferEnable):
     props = object.build_properties
     if props:
         if props.external_is_valid and "external" in propsSet:
-            props.external = propsSet["external"]v
+            props.external = propsSet["external"]
         if props.enable_system_call_is_valid and "enable_system_call" in propsSet:
             props.enable_system_call = propsSet["enable_system_call"]
         if (
@@ -116,6 +116,44 @@ def handleFolder(creationObject, placementObject, name, path, ext):
             loopDir(self, None, path, False)
 
 
+def replace_second_group(match):
+    part1 = match.group(1)
+    part3 = match.group(3)
+    return part1 + ", * (" + part3 + ")"
+
+
+def handleLibraryManager(creationObject, path, ext):
+    manager = creationObject.get_library_manager()
+    jsonData = json.loads(fileContent(path + ext))
+    print(jsonData)
+    for library in jsonData["libraries"]:
+        if re.match(
+            r"(\w|\d|\s)*, ((\d*\.){3}\d*|\*) \((\w|\d|\s)*\)", library["Name"]
+        ):
+
+            lib = librarymanager.find_library(
+                re.sub(
+                    r"(\w|\d|\s)*, ((\d*\.){3}\d*|\*) \((\w|\d|\s)*\)",
+                    replace_second_group,
+                    library["Name"],
+                )
+            )
+            if lib:
+                manager.add_library(lib[0])
+        else:
+            lib = librarymanager.find_library(
+                re.sub(
+                    r"(\w|\d|\s)*, ((\d*\.){3}\d*|\*) \((\w|\d|\s)*\)",
+                    replace_second_group,
+                    library["DefaultResolution"],
+                )
+            )
+            if lib:
+                manager.add_placeholder(library["Namespace"], lib[0])
+
+    # applyObjectBuildProperties(manager, jsonData["BuildProperties"], False)
+
+
 # ###########################################################################################################################################
 #    _____             _
 #   |  __ \           (_)
@@ -141,10 +179,7 @@ def handleDevice(project, name, path, ext):
 
 def handlePLCLogic(plc, name, path, ext):
     self = plc.find("Plc Logic")[0]
-    print("test")
-    print(path + ext)
     buildProps = json.loads(fileContent(path + ext))
-    print(buildProps)
     applyObjectBuildProperties(self, buildProps, False)
     for child in self.get_children(False):
         child.remove()
@@ -162,10 +197,36 @@ def handleTaskConfiguration(application, name, path):
     loopDir(self, None, path, False)
 
 
+kindsOfTasks = {
+    "Cyclic": KindOfTask.Cyclic,
+    "Freewheeling": KindOfTask.Freewheeling,
+    "Event": KindOfTask.Event,
+    "ExternalEvent": KindOfTask.ExternalEvent,
+    "Status": KindOfTask.Status,
+    "ParentSynchron": KindOfTask.ParentSynchron,
+}
+
+
 def handleTask(taskConfigurator, name, path, ext):
     self = taskConfigurator.create_task(name)
     buildProps = json.loads(fileContent(path + ext))
-    print(buildProps)
+    self.kind_of_task = kindsOfTasks[buildProps["kindOfTask"]]
+    self.priority = buildProps["priority"]
+    self.core_binding = buildProps["coreBinding"]
+    self.interval = buildProps["interval"]
+    self.interval_unit = buildProps["intervalUnit"]
+    self.event = buildProps["event"]
+    self.external_event = buildProps["externalEvent"]
+    self.parent_synchron_task = buildProps["parentSynchronTask"]
+    watchDog = self.watchdog
+    watchDog.enabled = buildProps["watchdog"]["enabled"]
+    watchDog.time = buildProps["watchdog"]["time"]
+    watchDog.time_unit = buildProps["watchdog"]["timeUnit"]
+    watchDog.sensitivity = buildProps["watchdog"]["sensitivity"]
+    pous = self.pous
+    for pouProps in buildProps["pous"]:
+        pous.add(pouProps["pou"], pouProps["comment"])
+
     loopDir(self, None, path, False)
 
 
@@ -214,6 +275,7 @@ def handleFile(creationObject, placementObject, path, file):
         #     handleInterface(creationObject, objectname, path, ext)
         # elif type == "%PV%" and ext == ".xml":
         #     handlePersistentVariables(creationObject, objectname, path, ext)
+
         # # Members
         # elif type == "%PRO%" and ext == ".st":
         #     handleProperty(creationObject, placementObject, objectname, path, ext)
@@ -223,7 +285,10 @@ def handleFile(creationObject, placementObject, path, file):
         #     handleMethod(creationObject, placementObject, objectname, path, ext)
         # elif type == "%TRAN%" and ext == ".st":
         #     handleTransition(creationObject, placementObject, objectname, path, ext)
-        # # Specials
+
+        # Specials
+        elif type == "%LIB%" and ext == ".json":  # Library Manager
+            handleLibraryManager(creationObject, path, ext)
         # elif type == "%TL%" and ext == ".json":  # Text List
         #     handleTextList(creationObject, objectname, path, ext, False)
         # elif type == "%GTL%" and ext == ".json":  # Global Text List
@@ -232,8 +297,7 @@ def handleFile(creationObject, placementObject, path, file):
         #     handleImagePool(creationObject, objectname, path, ext)
         # elif type == "%PS%" and ext == ".xml":  # Project Settings
         #     handleProjectSettings(creationObject, path, ext)
-        # elif type == "%LIB%" and ext == ".json":  # Library Manager
-        #     handleLibraryManager(creationObject, path, ext)
+
         # # Visu
         # elif type == "%VISU%" and ext == ".xml":
         #     handleVisu(creationObject, path, ext)
@@ -252,7 +316,7 @@ def handleFile(creationObject, placementObject, path, file):
         elif type == "%TC%" and ext == ".json":
             handleTaskConfiguration(creationObject, objectname, path)
         elif type == "%TSK%" and ext == ".json":
-            handleTask(creationObject, path, ext)
+            handleTask(creationObject, objectname, path, ext)
 
     except Exception as e:
         print("Error: ", e)
@@ -579,25 +643,6 @@ loopDir(project, None, srcPath, True)
 #     creationObject.import_native(path + ext)
 
 
-# def handleLibraryManager(creationObject, path, ext):
-#     manager = creationObject.get_library_manager()
-#     jsonData = json.loads(fileContent(path + ext))
-#     for library in jsonData["libraries"]:
-#         if not library["system_library"]:
-#             lib = librarymanager.find_library(library["name"])
-#             if lib:
-#                 manager.add_library(lib[0])
-#     for placeholder in jsonData["placeholders"]:
-#         if not placeholder["system_library"]:
-#             if len(placeholder["default_resolution"]):
-#                 lib = librarymanager.find_library(placeholder["default_resolution"])
-#             else:
-#                 lib = librarymanager.find_library(placeholder["effective_resolution"])
-#             if lib:
-#                 manager.add_placeholder(placeholder["namespace"], lib[0])
-#     applyObjectBuildProperties(manager, jsonData["BuildProperties"], False)
-
-
 # ###########################################################################################################################################
 # # Visu
 # def handleVisu(creationObject, path, ext):
@@ -606,5 +651,3 @@ loopDir(project, None, srcPath, True)
 
 # def handleVisuManager(creationObject, name, path, ext):
 #     creationObject.import_native(path + ext)
-
-

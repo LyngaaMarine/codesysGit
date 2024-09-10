@@ -1,0 +1,26 @@
+{
+  "interval": "t#50ms", 
+  "externalEvent": "LocalBusCycleEvent", 
+  "intervalUnit": "ms", 
+  "coreBinding": -2, 
+  "priority": "15", 
+  "kindOfTask": "Cyclic", 
+  "parentSynchronTask": "", 
+  "pous": [
+    {
+      "pou": "ProjectBeforeBoot", 
+      "comment": "Test"
+    }, 
+    {
+      "pou": "Task5_1", 
+      "comment": ""
+    }
+  ], 
+  "event": "", 
+  "watchdog": {
+    "enabled": false, 
+    "sensitivity": "1", 
+    "time": "", 
+    "timeUnit": "ms"
+  }
+}

@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import sys
+import time
 import xml.etree.ElementTree as ET
 
 
@@ -71,6 +72,9 @@ def fileContent(path):
     f = open(path, "r")
     data = f.read()
     f.close()
+    if data.startswith(b"\xef\xbb\xbf"):
+        data = data[3:]
+        return data.decode("utf-8")
     return data
 
 
@@ -108,6 +112,29 @@ def handleFolder(object, path):
         json.dumps(getObjectBuildProperties(object), indent=2), path + ".json"
     )
     loopObjects(object, path)
+
+
+def handleLibrary(object, path):
+    path = os.path.join(path, "%LIB%" + encodeObjectName(object))
+    object.export_xml(
+        reporter=None,
+        path=path + ".xml",
+        recursive=False,
+        export_folder_structure=False,
+        declarations_as_plaintext=True,
+    )
+    root = ET.fromstring(fileContent(path + ".xml"))
+    os.remove(path + ".xml")
+
+    libraries = []
+    namespaces = {"ns": "http://www.plcopen.org/xml/tc6_0200"}
+    for library in root.findall(".//ns:Library", namespaces):
+        system_library = library.get("SystemLibrary")
+        if system_library != "true":
+            libraries.append(library.attrib)
+    dict = getObjectBuildProperties(object)
+    dict["libraries"] = libraries
+    writeDataToFileUTF8(json.dumps(dict, indent=2), path + ".json")
 
 
 # ###########################################################################################################################################
@@ -167,8 +194,29 @@ kindsOfTasks = [
 
 
 def handleTask(object, path):
+    path = os.path.join(path, "%TSK%" + encodeObjectName(object))
     dict = getObjectBuildProperties(object)
-    dict["kindOfTask"] = kindsOfTasks[int(object.kind_of_task)]
+    kindOfTask = int(object.kind_of_task)
+    dict["kindOfTask"] = kindsOfTasks[kindOfTask]
+    dict["priority"] = object.priority
+    dict["coreBinding"] = object.core_binding
+    dict["interval"] = object.interval
+    dict["intervalUnit"] = object.interval_unit
+    dict["event"] = object.event
+    dict["externalEvent"] = object.external_event
+    dict["event"] = object.event
+    dict["parentSynchronTask"] = object.parent_synchron_task
+    watchDog = object.watchdog
+    dict["watchdog"] = {
+        "enabled": watchDog.enabled,
+        "time": watchDog.time,
+        "timeUnit": watchDog.time_unit,
+        "sensitivity": watchDog.sensitivity,
+    }
+    pous = []
+    for i in range(len(object.pous)):
+        pous.append({"pou": object.pous[i][0], "comment": object.pous[i][1]})
+    dict["pous"] = pous
     writeDataToFileUTF8(json.dumps(dict, indent=2), path + ".json")
 
 
@@ -230,12 +278,12 @@ def handleObject(object, path):
     #     handleProperty(object, path)
 
     # # Specials
+    elif type == "adb5cb65-8e1d-4a00-b70a-375ea27582f3":  # Library Manager
+        handleLibrary(object, path)
     # elif type == "2bef0454-1bd3-412a-ac2c-af0f31dbc40f":  # TextList
     #     handleTextList(object, path, False)
     # elif type == "bb0b9044-714e-4614-ad3e-33cbdf34d16b":  # ImagePool
     #     handleImagePool(object, path)
-    # elif type == "adb5cb65-8e1d-4a00-b70a-375ea27582f3":  # Library Manager
-    #     handleLibrary(object, path)
 
     # # Visu
     # elif type == "f18bec89-9fef-401d-9953-2f11739a6808":  # Visualization
@@ -512,45 +560,6 @@ loopObjects(project, srcPath)
 #                 }
 #             )
 #     writeDataToFile(json.dumps(list, indent=2), path + ".json")
-
-
-# def handleLibrary(object, path):
-#     path = os.path.join(path, "%LIB%" + encodeObjectName(object))
-#     references = object.references
-#     list = {
-#         "BuildProperties": getObjectBuildProperties(object),
-#         "libraries": [],
-#         "placeholders": [],
-#     }
-#     for ref in references:
-#         if ref.is_placeholder:
-#             list["placeholders"].append(
-#                 {
-#                     "is_managed": ref.is_managed,
-#                     "name": ref.name,
-#                     "namespace": ref.namespace,
-#                     "system_library": ref.system_library,
-#                     "qualified_only": ref.qualified_only,
-#                     "placeholder_name": ref.placeholder_name,
-#                     "default_resolution": ref.default_resolution,
-#                     "effective_resolution": ref.effective_resolution,
-#                     "is_redirected": ref.is_redirected,
-#                     "resolution_info": ref.resolution_info,
-#                 }
-#             )
-#         else:
-#             list["libraries"].append(
-#                 {
-#                     "is_managed": ref.is_managed,
-#                     "name": ref.name,
-#                     "namespace": ref.namespace,
-#                     "system_library": ref.system_library,
-#                     "qualified_only": ref.qualified_only,
-#                     "optional": ref.optional,
-#                 }
-#             )
-#     writeDataToFileUTF8(json.dumps(list, indent=2), path + ".json")
-
 
 # def handleSymbols(object, path):
 #     handleNativeExport(

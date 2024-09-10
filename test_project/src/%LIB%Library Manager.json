@@ -1,0 +1,89 @@
+{
+  "enable_system_call": false, 
+  "compiler_defines": "", 
+  "external": false, 
+  "libraries": [
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysDir", 
+      "DefaultResolution": "SysDir, 3.5.15.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysDir"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#TCP", 
+      "DefaultResolution": "TCP, 3.5.15.0 (3S - Smart Software Solutions GmbH)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "TCP"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysFile", 
+      "DefaultResolution": "SysFile, 3.5.15.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysFile"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysMem", 
+      "DefaultResolution": "SysMem, 3.5.12.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysMem"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysTimeRtc", 
+      "DefaultResolution": "SysTimeRtc, 3.5.5.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysTimeRtc"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysProcess", 
+      "DefaultResolution": "SysProcess, 3.5.16.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysProcess"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "SysTypes Interfaces, * (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysTypes"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#VisuSymbols", 
+      "DefaultResolution": "VisuSymbols, 4.4.0.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "VisuSymbols"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#WagoVisuIcons", 
+      "DefaultResolution": "WagoVisuIcons, 1.1.0.8 (WAGO)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "WagoVisuIcons"
+    }
+  ], 
+  "link_always": false, 
+  "exclude_from_build": false
+}

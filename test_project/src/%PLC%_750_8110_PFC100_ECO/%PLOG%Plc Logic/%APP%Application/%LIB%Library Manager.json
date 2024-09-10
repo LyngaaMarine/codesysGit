@@ -2,6 +2,7 @@
   "enable_system_call": false, 
   "compiler_defines": "", 
   "external": false, 
+  "libraries": [], 
   "link_always": false, 
   "exclude_from_build": false
 }
