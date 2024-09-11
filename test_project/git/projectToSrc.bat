@@ -1,1 +1,1 @@
-"C:\\Program Files\\CODESYS 3.5.19.20\\CODESYS\\Common\\CODESYS.exe" --profile='CODESYS V3.5 SP19 Patch 2' --runscript='%~dp0exporter.py'
+"C:\\Program Files\\CODESYS 3.5.19.70\\CODESYS\\Common\\CODESYS.exe" --profile='CODESYS V3.5 SP19 Patch 7' --runscript='%~dp0exporter.py'

@@ -619,10 +619,13 @@ def loopDir(creationObject, placementObject, path, sort):
 #                      | |
 #                      |_|
 #######################################################################
+print("Importer V0.0.1")
 
-print(sys.argv[0])
+if projects.primary is None:
+    structPath = os.path.dirname(os.path.dirname(sys.argv[0]))
+else:
+    structPath = os.path.dirname(os.path.dirname(projects.primary.path))
 
-structPath = os.path.dirname(os.path.dirname(sys.argv[0]))
 projectPath = os.path.join(structPath, "project")
 backupPath = os.path.join(structPath, "project_at_import")
 srcPath = os.path.join(structPath, "src")
