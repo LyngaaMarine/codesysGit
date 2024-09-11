@@ -1,273 +1,98 @@
 {
-  "placeholders": [
-    {
-      "default_resolution": "SysDir, 3.5.15.0 (System)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#SysDir", 
-      "namespace": "SysDir", 
-      "placeholder_name": "SysDir", 
-      "effective_resolution": "SysDir, 3.5.17.0 (System)", 
-      "is_redirected": true
-    }, 
-    {
-      "default_resolution": "TCP, 3.5.15.0 (3S - Smart Software Solutions GmbH)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#TCP", 
-      "namespace": "TCP", 
-      "placeholder_name": "TCP", 
-      "effective_resolution": "TCP, 3.5.19.0 (3S - Smart Software Solutions GmbH)", 
-      "is_redirected": true
-    }, 
-    {
-      "default_resolution": "SysFile, 3.5.15.0 (System)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#SysFile", 
-      "namespace": "SysFile", 
-      "placeholder_name": "SysFile", 
-      "effective_resolution": "SysFile, 3.5.17.0 (System)", 
-      "is_redirected": true
-    }, 
-    {
-      "default_resolution": "SysMem, 3.5.12.0 (System)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#SysMem", 
-      "namespace": "SysMem", 
-      "placeholder_name": "SysMem", 
-      "effective_resolution": "SysMem, 3.5.17.0 (System)", 
-      "is_redirected": true
-    }, 
-    {
-      "default_resolution": "SysTimeRtc, 3.5.5.0 (System)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#SysTimeRtc", 
-      "namespace": "SysTimeRtc", 
-      "placeholder_name": "SysTimeRtc", 
-      "effective_resolution": "SysTimeRtc, 3.5.17.0 (System)", 
-      "is_redirected": true
-    }, 
-    {
-      "default_resolution": "SysProcess, 3.5.16.0 (System)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#SysProcess", 
-      "namespace": "SysProcess", 
-      "placeholder_name": "SysProcess", 
-      "effective_resolution": "SysProcess, 3.5.17.0 (System)", 
-      "is_redirected": true
-    }, 
-    {
-      "default_resolution": "VisuElems, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElems", 
-      "namespace": "VisuElems", 
-      "placeholder_name": "System_VisuElems", 
-      "effective_resolution": "VisuElems, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemMeter, 4.3.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemMeter", 
-      "namespace": "VisuElemMeter", 
-      "placeholder_name": "System_VisuElemMeter", 
-      "effective_resolution": "VisuElemMeter, 4.3.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemsSpecialControls, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemsSpecialControls", 
-      "namespace": "VisuElemsSpecialControls", 
-      "placeholder_name": "System_VisuElemsSpecialControls", 
-      "effective_resolution": "VisuElemsSpecialControls, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemsWinControls, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemsWinControls", 
-      "namespace": "VisuElemsWinControls", 
-      "placeholder_name": "System_VisuElemsWinControls", 
-      "effective_resolution": "VisuElemsWinControls, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemTextEditor, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemTextEditor", 
-      "namespace": "VisuElemTextEditor", 
-      "placeholder_name": "System_VisuElemTextEditor", 
-      "effective_resolution": "VisuElemTextEditor, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemTrace, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemTrace", 
-      "namespace": "VisuElemTrace", 
-      "placeholder_name": "System_VisuElemTrace", 
-      "effective_resolution": "VisuElemTrace, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuNativeControl, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuNativeControl", 
-      "namespace": "VisuNativeControl", 
-      "placeholder_name": "System_VisuNativeControl", 
-      "effective_resolution": "VisuNativeControl, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemsAlarm, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemsAlarm", 
-      "namespace": "VisuElemsAlarm", 
-      "placeholder_name": "System_VisuElemsAlarm", 
-      "effective_resolution": "VisuElemsAlarm, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemCamDisplayer, 4.2.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemCamDisplayer", 
-      "namespace": "VisuElemCamDisplayer", 
-      "placeholder_name": "System_VisuElemCamDisplayer", 
-      "effective_resolution": "VisuElemCamDisplayer, 4.2.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElem3DPath, 4.1.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElem3DPath", 
-      "namespace": "VisuElem3DPath", 
-      "placeholder_name": "System_VisuElem3DPath", 
-      "effective_resolution": "VisuElem3DPath, 4.1.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemsDateTime, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemsDateTime", 
-      "namespace": "VisuElemsDateTime", 
-      "placeholder_name": "System_VisuElemsDateTime", 
-      "effective_resolution": "VisuElemsDateTime, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuElemXYChart, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuElemXYChart", 
-      "namespace": "VisuElemXYChart", 
-      "placeholder_name": "System_VisuElemXYChart", 
-      "effective_resolution": "VisuElemXYChart, 4.4.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuInputs, 4.2.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": true, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by active visualization profile", 
-      "name": "#System_VisuInputs", 
-      "namespace": "VisuInputs", 
-      "placeholder_name": "System_VisuInputs", 
-      "effective_resolution": "VisuInputs, 4.2.0.0 (System)", 
-      "is_redirected": false
-    }, 
-    {
-      "default_resolution": "VisuSymbols, 4.4.0.0 (System)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#VisuSymbols", 
-      "namespace": "VisuSymbols", 
-      "placeholder_name": "VisuSymbols", 
-      "effective_resolution": "VisuSymbols, 4.4.0.0 (System)", 
-      "is_redirected": true
-    }, 
-    {
-      "default_resolution": "WagoVisuIcons, 1.1.0.8 (WAGO)", 
-      "is_managed": false, 
-      "system_library": false, 
-      "qualified_only": false, 
-      "resolution_info": "Resolved by placeholder redirection", 
-      "name": "#WagoVisuIcons", 
-      "namespace": "WagoVisuIcons", 
-      "placeholder_name": "WagoVisuIcons", 
-      "effective_resolution": "WagoVisuIcons, 1.1.0.8 (WAGO)", 
-      "is_redirected": true
-    }
-  ], 
+  "enable_system_call": false, 
+  "compiler_defines": "", 
+  "external": false, 
   "libraries": [
     {
-      "qualified_only": true, 
-      "namespace": "SysTypes", 
-      "optional": false, 
-      "name": "SysTypes Interfaces, * (System)", 
-      "is_managed": true, 
-      "system_library": false
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysDir", 
+      "DefaultResolution": "SysDir, 3.5.15.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysDir"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#TCP", 
+      "DefaultResolution": "TCP, 3.5.15.0 (3S - Smart Software Solutions GmbH)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "TCP"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysFile", 
+      "DefaultResolution": "SysFile, 3.5.15.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysFile"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysMem", 
+      "DefaultResolution": "SysMem, 3.5.12.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysMem"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysTimeRtc", 
+      "DefaultResolution": "SysTimeRtc, 3.5.5.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysTimeRtc"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysProcess", 
+      "DefaultResolution": "SysProcess, 3.5.16.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysProcess"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "SysTypes Interfaces, * (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysTypes"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#VisuSymbols", 
+      "DefaultResolution": "VisuSymbols, 4.4.0.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "VisuSymbols"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#WagoVisuIcons", 
+      "DefaultResolution": "WagoVisuIcons, 1.1.0.8 (WAGO)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "WagoVisuIcons"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#CmpBitmapPool", 
+      "DefaultResolution": "CmpBitmapPool, * (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "CmpBitmapPool"
     }
   ], 
-  "BuildProperties": {
-    "enable_system_call": false, 
-    "compiler_defines": "", 
-    "external": false, 
-    "link_always": false, 
-    "exclude_from_build": false
-  }
+  "link_always": false, 
+  "exclude_from_build": false
 }

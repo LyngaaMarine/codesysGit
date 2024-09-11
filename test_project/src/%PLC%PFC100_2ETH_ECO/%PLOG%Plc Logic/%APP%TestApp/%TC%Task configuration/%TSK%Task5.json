@@ -1,0 +1,26 @@
+{
+  "interval": "t#50ms", 
+  "externalEvent": "", 
+  "intervalUnit": "ms", 
+  "coreBinding": -2, 
+  "priority": "15", 
+  "kindOfTask": "Status", 
+  "parentSynchronTask": "", 
+  "pous": [
+    {
+      "pou": "Task5_1", 
+      "comment": ""
+    }, 
+    {
+      "pou": "Task5_2", 
+      "comment": ""
+    }
+  ], 
+  "event": "Kbus._xAutoInit", 
+  "watchdog": {
+    "enabled": false, 
+    "sensitivity": "1", 
+    "time": "", 
+    "timeUnit": "ms"
+  }
+}

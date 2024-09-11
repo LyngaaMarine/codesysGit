@@ -1,0 +1,22 @@
+{
+  "interval": "t#50ms", 
+  "externalEvent": "LocalBusEvent_1", 
+  "intervalUnit": "ms", 
+  "coreBinding": -2, 
+  "priority": "15", 
+  "kindOfTask": "ExternalEvent", 
+  "parentSynchronTask": "", 
+  "pous": [
+    {
+      "pou": "ProjectDuringBoot", 
+      "comment": ""
+    }
+  ], 
+  "event": "", 
+  "watchdog": {
+    "enabled": false, 
+    "sensitivity": "1", 
+    "time": "", 
+    "timeUnit": "ms"
+  }
+}

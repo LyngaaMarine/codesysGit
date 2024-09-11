@@ -1,0 +1,39 @@
+= Notes for codesys scripting engine
+
+== Global Types
+Object used to id different devices, write like this, first var is mfr id, seconds is device id, third is version. +
+example for Wago 750-8110 device with wago firmware 27. +
+DeviceID(4096, "1006 1104", "6.3.0.12")
+
+
+== ScriptProjects
+Gets primary project +
+Prop: primary -> ScriptProject
+
+== ScriptProject
+Is project primary +
+Prop: primary -> Boolean
+
+Path of project file +
+Prop: path -> Str
+
+Used to add a device to the project +
+Meth: add(name:str,devID: DeviceID) -> None
+
+== ScriptObject
+Used to get the name of the object +
+Meth: get_name(resolve_localized_display_name=False) -> Str
+
+== ScriptDeviceObject
+Returns the device id of the device +
+Meth: get_device_identification() -> DeviceID
+
+== ScriptApplication
+Creates a task configuration on the application +
+Meth: create_task_configuration() -> ScriptTaskConfigObject
+
+== ScriptTaskConfigObject
+Creates a task on the task configurator +
+Meth: create_task(name) -> ScriptTaskObject
+
+== ScriptTaskObject

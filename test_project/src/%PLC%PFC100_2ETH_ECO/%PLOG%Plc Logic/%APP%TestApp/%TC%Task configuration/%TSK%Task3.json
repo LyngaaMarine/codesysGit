@@ -1,0 +1,22 @@
+{
+  "interval": "t#50ms", 
+  "externalEvent": "LocalBusCycleEvent", 
+  "intervalUnit": "ms", 
+  "coreBinding": -2, 
+  "priority": "15", 
+  "kindOfTask": "Event", 
+  "parentSynchronTask": "", 
+  "pous": [
+    {
+      "pou": "Task3", 
+      "comment": ""
+    }
+  ], 
+  "event": "Kbus._xValidData", 
+  "watchdog": {
+    "enabled": false, 
+    "sensitivity": "1", 
+    "time": "", 
+    "timeUnit": "ms"
+  }
+}

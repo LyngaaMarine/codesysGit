@@ -1,0 +1,35 @@
+{
+  "enable_system_call": false, 
+  "compiler_defines": "", 
+  "external": false, 
+  "libraries": [
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysDir", 
+      "DefaultResolution": "SysDir, 3.5.15.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysDir"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#SysFile", 
+      "DefaultResolution": "SysFile, 3.5.15.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysFile"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "SysTime, 3.5.17.0 (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "SysTime"
+    }
+  ], 
+  "link_always": false, 
+  "exclude_from_build": false
+}

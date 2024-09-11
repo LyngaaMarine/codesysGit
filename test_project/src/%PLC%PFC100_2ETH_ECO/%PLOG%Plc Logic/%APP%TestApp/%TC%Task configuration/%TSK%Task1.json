@@ -1,0 +1,22 @@
+{
+  "interval": "t#50ms", 
+  "externalEvent": "", 
+  "intervalUnit": "ms", 
+  "coreBinding": -2, 
+  "priority": "15", 
+  "kindOfTask": "Cyclic", 
+  "parentSynchronTask": "", 
+  "pous": [
+    {
+      "pou": "ProjectBeforeBoot", 
+      "comment": ""
+    }
+  ], 
+  "event": "", 
+  "watchdog": {
+    "enabled": false, 
+    "sensitivity": "1", 
+    "time": "", 
+    "timeUnit": "ms"
+  }
+}
