@@ -19,13 +19,13 @@
         "tree", 
         "uu"
       ], 
-      "TextDefault": "tree"
+      "TextDefault": "tree\r\ntest"
     }, 
     {
       "TextID": "b2", 
       "LanguageTexts": [
         "vej", 
-        "road\u2030", 
+        "road‰", 
         "aaa"
       ], 
       "TextDefault": "road"
@@ -33,17 +33,17 @@
     {
       "TextID": "c3", 
       "LanguageTexts": [
-        "aeble\r\r\nasdf", 
+        "aeble\r\nasdf", 
         "apple", 
         "qqq"
       ], 
-      "TextDefault": "apple"
+      "TextDefault": "apple\r\næøå"
     }, 
     {
       "TextID": "d4", 
       "LanguageTexts": [
         "navn", 
-        "nam\r\r\nassgd", 
+        "nam\r\nassgd", 
         "oo"
       ], 
       "TextDefault": "name"
@@ -51,11 +51,11 @@
     {
       "TextID": "e5", 
       "LanguageTexts": [
-        "syk\u2030", 
+        "syk‰", 
         "sick", 
-        "0sadf\r\r\nbb\r\r\nfsdf\r\r\nhh"
+        "0sadf\r\nbb\r\nfsdf\r\nhh"
       ], 
-      "TextDefault": "sick"
+      "TextDefault": "æøåasbs"
     }
   ]
 }

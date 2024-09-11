@@ -286,6 +286,9 @@ def handleImagePool(object, path):
     writeDataToFile(json.dumps(list, indent=2), path + ".json")
 
 
+import codecs
+
+
 def handleTextList(object, path, isGlobal):
     if isGlobal:
         path = os.path.join(path, "%GTL%" + encodeObjectName(object))
@@ -299,13 +302,22 @@ def handleTextList(object, path, isGlobal):
     for row in object.rows:
         texts = []
         for i in range(row.languagetextcount()):
-            texts.append(row.languagetext(i).replace("\r\r\r\n", "\r\n"))
+            cleaned_text = re.sub(r"\r+\n", "\r\n", row.languagetext(i))
+            texts.append(cleaned_text)
+        cleaned_text = re.sub(r"\r+\n", "\r\n", row.defaulttext)
         allInfo["TextList"].append(
-            {"TextID": row.id, "TextDefault": row.defaulttext, "LanguageTexts": texts}
+            {
+                "TextID": row.id,
+                "TextDefault": cleaned_text,
+                "LanguageTexts": texts,
+            }
         )
     for i in range(object.languagecount()):
         allInfo["LanguageList"].append(object.getlanguage(i))
-    writeDataToFile(json.dumps(allInfo, indent=2), path + ".json")
+    print(allInfo)
+    json_data = json.dumps(allInfo, indent=2, ensure_ascii=False)
+    with codecs.open(path + ".json", "w", encoding="utf-8") as file:
+        file.write(json_data)
 
 
 def handleSymbols(object, path):
@@ -500,15 +512,15 @@ def handleObject(object, path):
     elif type == "5a3b8626-d3e9-4f37-98b5-66420063d91e":  # ITF Property
         handleProperty(object, path)
 
-    # # Specials
+    # Specials
     elif type == "adb5cb65-8e1d-4a00-b70a-375ea27582f3":  # Library Manager
         handleLibrary(object, path)
     elif type == "bb0b9044-714e-4614-ad3e-33cbdf34d16b":  # ImagePool
         handleImagePool(object, path)
-    elif type == "2bef0454-1bd3-412a-ac2c-af0f31dbc40f":  # TextList
-        handleTextList(object, path, False)
     elif type == "21d4fe94-4123-4e23-9091-ead220afbd1f":  # Symbol Configuration
         handleSymbols(object, path)
+    elif type == "2bef0454-1bd3-412a-ac2c-af0f31dbc40f":  # TextList
+        handleTextList(object, path, False)
 
     # Visu
     elif type == "4d3fdb8f-ab50-4c35-9d3a-d4bb9bb9a628":  # Visualization Manager
