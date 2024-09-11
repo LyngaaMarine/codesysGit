@@ -33,9 +33,9 @@
 == Visu		
 |===
 |Designator        |Name                      |UUID
-|%VISU%            |Visualization             |f18bec89-9fef-401d-9953-2f11739a6808    
 |%VIMA%            |Visualization Manager     |4d3fdb8f-ab50-4c35-9d3a-d4bb9bb9a628
 |%WEVI%            |WebVisu                   |0fdbf158-1ae0-47d9-9269-cd84be308e9d
+|%VISU%            |Visualization             |f18bec89-9fef-401d-9953-2f11739a6808    
 |===
 
 
@@ -44,9 +44,9 @@
 |Designator        |Name                      |UUID
 |%F%               |Folder                    |738bea1e-99bb-4f04-90bb-a7a567e74e3a    
 |%LIB%             |Library Manager           |adb5cb65-8e1d-4a00-b70a-375ea27582f3    
-|%TL%              |TextList                  |2bef0454-1bd3-412a-ac2c-af0f31dbc40f    
 |%IMP%             |ImagePool                 |bb0b9044-714e-4614-ad3e-33cbdf34d16b    
 |%SYM%             |Symbol                    |21d4fe94-4123-4e23-9091-ead220afbd1f
+|%TL%              |TextList                  |2bef0454-1bd3-412a-ac2c-af0f31dbc40f    
 |===
 
 == Device		

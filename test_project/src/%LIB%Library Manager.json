@@ -82,6 +82,15 @@
       "DefaultResolution": "WagoVisuIcons, 1.1.0.8 (WAGO)", 
       "PublishSymbolsInContainer": "false", 
       "Namespace": "WagoVisuIcons"
+    }, 
+    {
+      "HideWhenReferencedAsDependency": "false", 
+      "LinkAllContent": "false", 
+      "SystemLibrary": "false", 
+      "Name": "#CmpBitmapPool", 
+      "DefaultResolution": "CmpBitmapPool, * (System)", 
+      "PublishSymbolsInContainer": "false", 
+      "Namespace": "CmpBitmapPool"
     }
   ], 
   "link_always": false, 

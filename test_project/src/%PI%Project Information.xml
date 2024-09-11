@@ -1,0 +1,161 @@
+<ExportFile>
+  <StructuredView Guid="{21af5390-2942-461a-bf89-951aaf6999f1}">
+<Single xml:space="preserve" Type="{3daac5e4-660e-42e4-9cea-3711b98bfb63}" Method="IArchivable">
+  <Null Name="Profile" />
+  <List2 Name="EntryList">
+    <Single Type="{6198ad31-4b98-445c-927f-3258a0e82fe3}" Method="IArchivable">
+      <Single Name="IsRoot" Type="bool">True</Single>
+      <Single Name="MetaObject" Type="{81297157-7ec9-45ce-845e-84cab2b88ade}" Method="IArchivable">
+        <Single Name="Guid" Type="System.Guid">11c0fc3a-9bcf-4dd8-ac38-efb93363e521</Single>
+        <Single Name="ParentGuid" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="Name" Type="string">Project Information</Single>
+        <Dictionary Type="{2c41fa04-1834-41c1-816e-303c7aa2c05b}" Name="Properties" />
+        <Single Name="TypeGuid" Type="System.Guid">085afe48-c5d8-4ea5-ab0d-b35701fa6009</Single>
+        <Null Name="EmbeddedTypeGuids" />
+        <Single Name="Timestamp" Type="long"> 0 </Single>
+      </Single>
+      <Single Name="Object" Type="{085afe48-c5d8-4ea5-ab0d-b35701fa6009}" Method="IArchivable">
+        <Dictionary Type="System.Collections.Hashtable" Name="Properties">
+          <Entry>
+            <Key>
+              <Single Type="string">customKey</Single>
+            </Key>
+            <Value>
+              <Single Type="string">customKeyVal</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">testNumber</Single>
+            </Key>
+            <Value>
+              <Single Type="int">69420</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Project</Single>
+            </Key>
+            <Value>
+              <Single Type="string"></Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Description</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestDes</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Author</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestPers</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Version</Single>
+            </Key>
+            <Value>
+              <Single Type="{78562ae7-5a2e-4542-9033-c5c093009235}" Method="IArchivable">
+                <Single Name="Version" Type="string">1.2.3.4</Single>
+              </Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">test3</Single>
+            </Key>
+            <Value>
+              <Single Type="int">88</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">test2</Single>
+            </Key>
+            <Value>
+              <Single Type="bool">True</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Company</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestComp</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">testDate</Single>
+            </Key>
+            <Value>
+              <Single Type="System.DateTime">2024-05-20</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Title</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestTitl</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">test</Single>
+            </Key>
+            <Value>
+              <Single Type="string">test</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">DefaultNamespace</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestLab</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Released</Single>
+            </Key>
+            <Value>
+              <Single Type="bool">False</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Placeholder</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestPlac</Single>
+            </Value>
+          </Entry>
+        </Dictionary>
+        <Single Name="GetCompanyGUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="GetTitleGUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="GetVersionGUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="GetTextPropertyGUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="GetTextProperty2GUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="GetNumberPropertyGUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="GetBooleanPropertyGUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Single Name="GetVersionPropertyGUID" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+        <Null Name="GetLibVersionGUID" />
+        <Null Name="GetLibVersionNumberGUID" />
+        <Null Name="IsLibReleasedGUID" />
+      </Single>
+      <Single Name="ParentSVNodeGuid" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>
+      <Array Name="Path" Type="string" />
+      <Single Name="Index" Type="int">-1</Single>
+    </Single>
+  </List2>
+  <Null Name="ProfileName" />
+</Single>  </StructuredView>
+</ExportFile>

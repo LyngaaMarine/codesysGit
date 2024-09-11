@@ -1,6 +1,6 @@
 {
   "interval": "t#50ms", 
-  "externalEvent": "LocalBusCycleEvent", 
+  "externalEvent": "", 
   "intervalUnit": "ms", 
   "coreBinding": -2, 
   "priority": "15", 
@@ -9,10 +9,6 @@
   "pous": [
     {
       "pou": "ProjectBeforeBoot", 
-      "comment": "Test"
-    }, 
-    {
-      "pou": "Task5_1", 
       "comment": ""
     }
   ], 

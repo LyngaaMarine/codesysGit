@@ -95,6 +95,99 @@ def handleNativeExport(object, path, recursive):
     writeDataToFile(editedFile, path)
 
 
+def textExportDeclImpl(object, path):
+    f = open(path + ".st", "w")
+    f.write(
+        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
+    )
+    if object.has_textual_declaration:
+        f.write(object.textual_declaration.text.encode("utf-8"))
+    f.write("\n!__IMPLEMENTATION__!\n")
+    if object.has_textual_implementation:
+        f.write(object.textual_implementation.text.encode("utf-8"))
+    f.close()
+
+
+def textExportDecl(object, path):
+    f = open(path + ".st", "w")
+    f.write(
+        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
+    )
+    if object.has_textual_declaration:
+        f.write(object.textual_declaration.text.encode("utf-8"))
+    f.close()
+
+
+def textExportImpl(object, path):
+    f = open(path + ".st", "w")
+    f.write(
+        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
+    )
+    if object.has_textual_implementation:
+        f.write(object.textual_implementation.text.encode("utf-8"))
+    f.close()
+
+
+# ###########################################################################################################################################
+#    _____   ____  _    _
+#   |  __ \ / __ \| |  | |
+#   | |__) | |  | | |  | |
+#   |  ___/| |  | | |  | |
+#   | |    | |__| | |__| |
+#   |_|     \____/ \____/
+# ###########################################################################################################################################
+
+
+def handleTextType(object, path, designator):
+    path = os.path.join(path, designator + encodeObjectName(object))
+    if designator == "%POU%":
+        textExportDeclImpl(object, path)
+    elif designator == "%METH%":
+        textExportDeclImpl(object, path)
+    elif designator == "%TRAN%":
+        textExportImpl(object, path)
+    else:
+        textExportDecl(object, path)
+    loopObjects(object, path)
+
+
+def handleProperty(object, path):
+    path = os.path.join(path, "%PRO%" + encodeObjectName(object))
+    f = open(path + ".st", "w")
+    f.write(
+        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
+    )
+    if object.has_textual_declaration:
+        f.write(object.textual_declaration.text.encode("utf-8"))
+    f.write("\n!__GETTER__!\n")
+    get = object.find("Get")
+    if len(get) > 0:
+        getter = get[0]
+        if getter:
+            if getter.has_textual_declaration:
+                f.write(getter.textual_declaration.text.encode("utf-8"))
+            f.write("\n!__IMPLEMENTATION__!\n")
+            if getter.has_textual_implementation:
+                f.write(getter.textual_implementation.text.encode("utf-8"))
+    f.write("\n!__SETTER__!\n")
+    set = object.find("Set")
+    if len(set) > 0:
+        setter = set[0]
+        if setter:
+            if setter.has_textual_declaration:
+                f.write(setter.textual_declaration.text.encode("utf-8"))
+            f.write("\n!__IMPLEMENTATION__!\n")
+            if setter.has_textual_implementation:
+                f.write(setter.textual_implementation.text.encode("utf-8"))
+    f.close()
+
+
+def handlePersistentVariables(object, path):
+    path = os.path.join(path, "%PV%" + encodeObjectName(object))
+    handleNativeExport(object, path + ".xml", False)
+    loopObjects(object, path)
+
+
 # ###########################################################################################################################################
 #     _____                 _       _
 #    / ____|               (_)     | |
@@ -135,6 +228,118 @@ def handleLibrary(object, path):
     dict = getObjectBuildProperties(object)
     dict["libraries"] = libraries
     writeDataToFileUTF8(json.dumps(dict, indent=2), path + ".json")
+
+
+def handleImagePool(object, path):
+    path = os.path.join(path, "%IMP%" + encodeObjectName(object))
+    object.export_native(path + ".xml", False)
+    tree = ET.parse(path + ".xml")
+    os.remove(path + ".xml")
+    root = tree.getroot()
+    list = {
+        "BuildProperties": getObjectBuildProperties(object),
+        "imagepool": [],
+        "imagedata": [],
+    }
+    imageList = root.find(
+        './StructuredView/Single/List2/Single/Single[@Name="Object"]/List[@Name="BitmapPool"]'
+    )
+    for item in imageList:
+        id = item.find('./Single[@Name="BitmapID"]').text
+        if id:
+            list["imagepool"].append(
+                {
+                    "id": id,
+                    "fileID": item.find('./Single[@Name="FileID"]').text or "",
+                    "itemID": item.find('./Single[@Name="ItemID"]').text or "",
+                }
+            )
+    imageData = root.findall(
+        './StructuredView/Single/List2/Single[@Type="{6198ad31-4b98-445c-927f-3258a0e82fe3}"]'
+    )
+    for item in imageData:
+        updateMode = item.find(
+            './Single[@Name="Object"]/Single[@Name="AutoUpdateMode"]'
+        )
+        if updateMode is not None:
+            list["imagedata"].append(
+                {
+                    "name": item.find(
+                        './Single[@Name="MetaObject"]/Single[@Name="Name"]'
+                    ).text
+                    or "",
+                    "guid": item.find(
+                        './Single[@Name="MetaObject"]/Single[@Name="Guid"]'
+                    ).text
+                    or "",
+                    "autoUpdateMode": updateMode.text or "",
+                    "data": item.find(
+                        './Single[@Name="Object"]/Array[@Name="Data"]'
+                    ).text
+                    or "",
+                    "frozen": item.find(
+                        './Single[@Name="Object"]/Single[@Name="Frozen"]'
+                    ).text
+                    or "",
+                }
+            )
+    writeDataToFile(json.dumps(list, indent=2), path + ".json")
+
+
+def handleTextList(object, path, isGlobal):
+    if isGlobal:
+        path = os.path.join(path, "%GTL%" + encodeObjectName(object))
+    else:
+        path = os.path.join(path, "%TL%" + encodeObjectName(object))
+    allInfo = {
+        "BuildProperties": getObjectBuildProperties(object),
+        "TextList": [],
+        "LanguageList": [],
+    }
+    for row in object.rows:
+        texts = []
+        for i in range(row.languagetextcount()):
+            texts.append(row.languagetext(i).replace("\r\r\r\n", "\r\n"))
+        allInfo["TextList"].append(
+            {"TextID": row.id, "TextDefault": row.defaulttext, "LanguageTexts": texts}
+        )
+    for i in range(object.languagecount()):
+        allInfo["LanguageList"].append(object.getlanguage(i))
+    writeDataToFile(json.dumps(allInfo, indent=2), path + ".json")
+
+
+def handleSymbols(object, path):
+    handleNativeExport(
+        object, os.path.join(path, "%SYM%" + encodeObjectName(object)) + ".xml", False
+    )
+
+
+# ###########################################################################################################################################
+#   __      ___
+#   \ \    / (_)
+#    \ \  / / _ ___ _   _
+#     \ \/ / | / __| | | |
+#      \  /  | \__ \ |_| |
+#       \/   |_|___/\__,_|
+# ###########################################################################################################################################
+
+
+def handleVisualizationManager(object, path):
+    path = os.path.join(path, "%VIMA%" + encodeObjectName(object))
+    handleNativeExport(object, path + ".xml", True)
+    loopObjects(object, path)
+
+
+def handleWebVisu(object, path):
+    handleNativeExport(
+        object, os.path.join(path, "%WEVI%" + encodeObjectName(object)) + ".xml", True
+    )
+
+
+def handleVisualization(object, path):
+    handleNativeExport(
+        object, os.path.join(path, "%VISU%" + encodeObjectName(object)) + ".xml", False
+    )
 
 
 # ###########################################################################################################################################
@@ -232,6 +437,24 @@ def handleTask(object, path):
 # ###########################################################################################################################################
 
 
+def handleProjectSettings(object, path):
+    handleNativeExport(
+        object, os.path.join(path, "%PS%" + encodeObjectName(object)) + ".xml", False
+    )
+
+
+def handleProjectInformation(object, path):
+    handleNativeExport(
+        object, os.path.join(path, "%PI%" + encodeObjectName(object)) + ".xml", False
+    )
+
+
+# def handleVisuStyle(object, path):
+#     handleNativeExport(
+#         object, os.path.join(path, "%VS%VisualizationStyle") + ".xml", False
+#     )
+
+
 # ###########################################################################################################################################
 #    _
 #   | |
@@ -248,48 +471,53 @@ def handleObject(object, path):
     if type == "738bea1e-99bb-4f04-90bb-a7a567e74e3a":  # Folder
         handleFolder(object, path)
 
-    # # Normals
-    # elif type == "6f9dac99-8de1-4efc-8465-68ac443b7d08":  # POU
-    #     handleTextType(object, path, "%POU%")
-    # elif (
-    #     type == "2db5746d-d284-4425-9f7f-2663a34b0ebc"
-    #     or type == "40989022-e4d2-4dc7-89d2-9a412930b20e"
-    # ):  # DUT
-    #     handleTextType(object, path, "%DUT%")
-    # elif type == "ffbfa93a-b94d-45fc-a329-229860183b1d":  # GVL
-    #     handleTextType(object, path, "%GVL%")
-    # elif type == "6654496c-404d-479a-aad2-8551054e5f1e":  # ITF
-    #     handleTextType(object, path, "%ITF%")
-    # elif type == "261bd6e6-249c-4232-bb6f-84c2fbeef430":  # Persisten Vars
-    #     handlePersistentVariables(object, path)
+    # POU
+    elif type == "ffbfa93a-b94d-45fc-a329-229860183b1d":  # GVL
+        handleTextType(object, path, "%GVL%")
+    elif type == "261bd6e6-249c-4232-bb6f-84c2fbeef430":  # Persisten Vars
+        handlePersistentVariables(object, path)
+    elif type == "6f9dac99-8de1-4efc-8465-68ac443b7d08":  # POU
+        handleTextType(object, path, "%POU%")
+    elif (
+        type == "2db5746d-d284-4425-9f7f-2663a34b0ebc"
+        or type == "40989022-e4d2-4dc7-89d2-9a412930b20e"
+    ):  # DUT
+        handleTextType(object, path, "%DUT%")
+    elif type == "6654496c-404d-479a-aad2-8551054e5f1e":  # ITF
+        handleTextType(object, path, "%ITF%")
 
-    # # Members
-    # elif type == "8ac092e5-3128-4e26-9e7e-11016c6684f2":  # POU Action
-    #     handleTextType(object, path, "%ACT%")
-    # elif type == "f8a58466-d7f6-439f-bbb8-d4600e41d099":  # POU Method
-    #     handleTextType(object, path, "%METH%")
-    # elif type == "5a3b8626-d3e9-4f37-98b5-66420063d91e":  # POU Property
-    #     handleProperty(object, path)
-    # elif type == "a10c6218-cb94-436f-91c6-e1652575253d":  # POU Transition
-    #     handleTextType(object, path, "%TRAN%")
-    # elif type == "f89f7675-27f1-46b3-8abb-b7da8e774ffd":  # ITF Method
-    #     handleTextType(object, path, "%METH%")
-    # elif type == "5a3b8626-d3e9-4f37-98b5-66420063d91e":  # ITF Property
-    #     handleProperty(object, path)
+    # POU Members
+    elif type == "8ac092e5-3128-4e26-9e7e-11016c6684f2":  # POU Action
+        handleTextType(object, path, "%ACT%")
+    elif type == "f8a58466-d7f6-439f-bbb8-d4600e41d099":  # POU Method
+        handleTextType(object, path, "%METH%")
+    elif type == "5a3b8626-d3e9-4f37-98b5-66420063d91e":  # POU Property
+        handleProperty(object, path)
+    elif type == "a10c6218-cb94-436f-91c6-e1652575253d":  # POU Transition
+        handleTextType(object, path, "%TRAN%")
+    elif type == "f89f7675-27f1-46b3-8abb-b7da8e774ffd":  # ITF Method
+        handleTextType(object, path, "%METH%")
+    elif type == "5a3b8626-d3e9-4f37-98b5-66420063d91e":  # ITF Property
+        handleProperty(object, path)
 
     # # Specials
     elif type == "adb5cb65-8e1d-4a00-b70a-375ea27582f3":  # Library Manager
         handleLibrary(object, path)
-    # elif type == "2bef0454-1bd3-412a-ac2c-af0f31dbc40f":  # TextList
-    #     handleTextList(object, path, False)
-    # elif type == "bb0b9044-714e-4614-ad3e-33cbdf34d16b":  # ImagePool
-    #     handleImagePool(object, path)
+    elif type == "bb0b9044-714e-4614-ad3e-33cbdf34d16b":  # ImagePool
+        handleImagePool(object, path)
+    elif type == "2bef0454-1bd3-412a-ac2c-af0f31dbc40f":  # TextList
+        handleTextList(object, path, False)
+    elif type == "21d4fe94-4123-4e23-9091-ead220afbd1f":  # Symbol Configuration
+        handleSymbols(object, path)
 
-    # # Visu
-    # elif type == "f18bec89-9fef-401d-9953-2f11739a6808":  # Visualization
-    #     handleVisualization(object, path)
-    # elif type == "4d3fdb8f-ab50-4c35-9d3a-d4bb9bb9a628":  # Visualization Manager
-    #     handleVisualizationManager(object, path)
+    # Visu
+    elif type == "4d3fdb8f-ab50-4c35-9d3a-d4bb9bb9a628":  # Visualization Manager
+        handleVisualizationManager(object, path)
+    # elif type == "0fdbf158-1ae0-47d9-9269-cd84be308e9d":  # Visualization Manager
+    # Webvisu is skipped as they are included in the visu manager file
+    #     handleWebVisu(object, path)
+    elif type == "f18bec89-9fef-401d-9953-2f11739a6808":  # Visualization
+        handleVisualization(object, path)
 
     # Device
     elif type == "225bfe47-7336-4dbc-9419-4105a7c831fa":  # PLC
@@ -303,13 +531,14 @@ def handleObject(object, path):
     elif type == "98a2708a-9b18-4f31-82ed-a1465b24fa2d":  # Task
         handleTask(object, path)
 
-    # # Project
-    # elif type == "8753fe6f-4a22-4320-8103-e553c4fc8e04":  # Project Settings
-    #     handleProjectSettings(object, path)
-    # elif type == "085afe48-c5d8-4ea5-ab0d-b35701fa6009":  # Project Information
-    #     handleProjectSettings(object, path)
+    # Project
+    elif type == "8753fe6f-4a22-4320-8103-e553c4fc8e04":  # Project Settings
+        handleProjectSettings(object, path)
+    elif type == "085afe48-c5d8-4ea5-ab0d-b35701fa6009":  # Project Information
+        handleProjectInformation(object, path)
     # elif type == "8e687a04-7ca7-42d3-be06-fcbda676c5ef":  # VisualizationStyle
-    #     return ""
+    # Visustyle does not work and does not seem to do anything
+    #     handleVisuStyle(object, path)
     # elif type == "63784cbb-9ba0-45e6-9d69-babf3f040511":  # GlobalTextList
     #     return ""
     # global text list is skipped due to it being generated automatically
@@ -336,6 +565,8 @@ def loopObjects(object, path):
 #                      |_|
 #######################################################################
 
+print(sys.argv[0])
+
 structPath = os.path.dirname(os.path.dirname(sys.argv[0]))
 projectPath = os.path.join(structPath, "project")
 backupPath = os.path.join(structPath, "project_at_export")
@@ -360,249 +591,3 @@ if os.path.exists(srcPath):
 
 # Loop all project objects
 loopObjects(project, srcPath)
-
-
-# Close when noui if possible
-# project.close()
-
-# #############################################################
-# #    ______                _   _
-# #   |  ____|              | | (_)
-# #   | |__ _   _ _ __   ___| |_ _  ___  _ __  ___
-# #   |  __| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
-# #   | |  | |_| | | | | (__| |_| | (_) | | | \__ \
-# #   |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# # Helper Functions
-
-
-# def getTypeSafe(object):
-#     if hasattr(object, "type"):
-#         return str(object.type)
-#     else:
-#         return "root"
-
-# def xMLListToPythList(element):
-#     list = []
-#     for child in element:
-#         list.append(child.text or "")
-#     return list
-
-
-# def textExportDeclImpl(object, path):
-#     f = open(path + ".st", "w")
-#     f.write(
-#         json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-#     )
-#     if object.has_textual_declaration:
-#         f.write(object.textual_declaration.text.encode("utf-8"))
-#     f.write("\n!__IMPLEMENTATION__!\n")
-#     if object.has_textual_implementation:
-#         f.write(object.textual_implementation.text.encode("utf-8"))
-#     f.close()
-
-
-# def textExportDecl(object, path):
-#     f = open(path + ".st", "w")
-#     f.write(
-#         json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-#     )
-#     if object.has_textual_declaration:
-#         f.write(object.textual_declaration.text.encode("utf-8"))
-#     f.close()
-
-
-# def textExportImpl(object, path):
-#     f = open(path + ".st", "w")
-#     f.write(
-#         json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-#     )
-#     if object.has_textual_implementation:
-#         f.write(object.textual_implementation.text.encode("utf-8"))
-#     f.close()
-
-
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# ###########################################################################################################################################
-# # Object Handlers
-
-
-# ###########################################################################################################################################
-# # Normals / Members
-# def handleTextType(object, path, designator):
-#     path = os.path.join(path, designator + encodeObjectName(object))
-#     if designator == "%POU%":
-#         textExportDeclImpl(object, path)
-#     elif designator == "%METH%":
-#         textExportDeclImpl(object, path)
-#     elif designator == "%TRAN%":
-#         textExportImpl(object, path)
-#     else:
-#         textExportDecl(object, path)
-#     loopObjects(object, path)
-
-
-# def handleProperty(object, path):
-#     path = os.path.join(path, "%PRO%" + encodeObjectName(object))
-#     f = open(path + ".st", "w")
-#     f.write(
-#         json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-#     )
-#     if object.has_textual_declaration:
-#         f.write(object.textual_declaration.text.encode("utf-8"))
-#     f.write("\n!__GETTER__!\n")
-#     get = object.find("Get")
-#     if len(get) > 0:
-#         getter = get[0]
-#         if getter:
-#             if getter.has_textual_declaration:
-#                 f.write(getter.textual_declaration.text.encode("utf-8"))
-#             f.write("\n!__IMPLEMENTATION__!\n")
-#             if getter.has_textual_implementation:
-#                 f.write(getter.textual_implementation.text.encode("utf-8"))
-#     f.write("\n!__SETTER__!\n")
-#     set = object.find("Set")
-#     if len(set) > 0:
-#         setter = set[0]
-#         if setter:
-#             if setter.has_textual_declaration:
-#                 f.write(setter.textual_declaration.text.encode("utf-8"))
-#             f.write("\n!__IMPLEMENTATION__!\n")
-#             if setter.has_textual_implementation:
-#                 f.write(setter.textual_implementation.text.encode("utf-8"))
-#     f.close()
-
-
-# def handlePersistentVariables(object, path):
-#     path = os.path.join(path, "%PV%" + encodeObjectName(object))
-#     handleNativeExport(object, path + ".xml", False)
-#     loopObjects(object, path)
-
-
-# ###########################################################################################################################################
-# # Specials
-# def handleTextList(object, path, isGlobal):
-#     if isGlobal:
-#         path = os.path.join(path, "%GTL%" + encodeObjectName(object))
-#     else:
-#         path = os.path.join(path, "%TL%" + encodeObjectName(object))
-#     allInfo = {
-#         "BuildProperties": getObjectBuildProperties(object),
-#         "TextList": [],
-#         "LanguageList": [],
-#     }
-#     for row in object.rows:
-#         texts = []
-#         for i in range(row.languagetextcount()):
-#             texts.append(row.languagetext(i).replace("\r\r\r\n", "\r\n"))
-#         allInfo["TextList"].append(
-#             {"TextID": row.id, "TextDefault": row.defaulttext, "LanguageTexts": texts}
-#         )
-#     for i in range(object.languagecount()):
-#         allInfo["LanguageList"].append(object.getlanguage(i))
-#     writeDataToFile(json.dumps(allInfo, indent=2), path + ".json")
-
-
-# def handleImagePool(object, path):
-#     path = os.path.join(path, "%IMP%" + encodeObjectName(object))
-#     object.export_native(path + ".xml", False)
-#     tree = ET.parse(path + ".xml")
-#     os.remove(path + ".xml")
-#     root = tree.getroot()
-#     list = {
-#         "BuildProperties": getObjectBuildProperties(object),
-#         "imagepool": [],
-#         "imagedata": [],
-#     }
-#     imageList = root.find(
-#         './StructuredView/Single/List2/Single/Single[@Name="Object"]/List[@Name="BitmapPool"]'
-#     )
-#     for item in imageList:
-#         id = item.find('./Single[@Name="BitmapID"]').text
-#         if id:
-#             list["imagepool"].append(
-#                 {
-#                     "id": id,
-#                     "fileID": item.find('./Single[@Name="FileID"]').text or "",
-#                     "itemID": item.find('./Single[@Name="ItemID"]').text or "",
-#                 }
-#             )
-#     imageData = root.findall(
-#         './StructuredView/Single/List2/Single[@Type="{6198ad31-4b98-445c-927f-3258a0e82fe3}"]'
-#     )
-#     for item in imageData:
-#         updateMode = item.find(
-#             './Single[@Name="Object"]/Single[@Name="AutoUpdateMode"]'
-#         )
-#         if updateMode is not None:
-#             list["imagedata"].append(
-#                 {
-#                     "name": item.find(
-#                         './Single[@Name="MetaObject"]/Single[@Name="Name"]'
-#                     ).text
-#                     or "",
-#                     "guid": item.find(
-#                         './Single[@Name="MetaObject"]/Single[@Name="Guid"]'
-#                     ).text
-#                     or "",
-#                     "autoUpdateMode": updateMode.text or "",
-#                     "data": item.find(
-#                         './Single[@Name="Object"]/Array[@Name="Data"]'
-#                     ).text
-#                     or "",
-#                     "frozen": item.find(
-#                         './Single[@Name="Object"]/Single[@Name="Frozen"]'
-#                     ).text
-#                     or "",
-#                 }
-#             )
-#     writeDataToFile(json.dumps(list, indent=2), path + ".json")
-
-# def handleSymbols(object, path):
-#     handleNativeExport(
-#         object, os.path.join(path, "%SYM%" + encodeObjectName(object)) + ".xml", False
-#     )
-
-
-# ###########################################################################################################################################
-# # Visu
-# def handleVisualization(object, path):
-#     handleNativeExport(
-#         object, os.path.join(path, "%VISU%" + encodeObjectName(object)) + ".xml", False
-#     )
-
-
-# def handleVisualizationManager(object, path):
-#     handleNativeExport(
-#         object, os.path.join(path, "%VIMA%" + encodeObjectName(object)) + ".xml", True
-#     )
-
-# def handleConnection(object, path):
-#     path = os.path.join(path, "%CONN%" + encodeObjectName(object))
-#     handleNativeExport(object, path + ".xml", False)
-#     loopObjects(object, path)
-
-
-# ###########################################################################################################################################
-# # Project
-
-
-# def handleProjectSettings(object, path):
-#     handleNativeExport(
-#         object, os.path.join(path, "%PS%" + encodeObjectName(object)) + ".xml", False
-#     )
-
-
-# def handleProjectInformation(object, path):
-#     handleNativeExport(
-#         object, os.path.join(path, "%PI%" + encodeObjectName(object)) + ".xml", False
-#     )
-
-
-# def handleVisuStyle(object, path):
-#     handleNativeExport(
-#         object, os.path.join(path, "%VS%" + encodeObjectName(object)) + ".xml", False
-#     )

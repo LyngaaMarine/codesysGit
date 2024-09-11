@@ -28,15 +28,6 @@
       "Name": "SysTime, 3.5.17.0 (System)", 
       "PublishSymbolsInContainer": "false", 
       "Namespace": "SysTime"
-    }, 
-    {
-      "HideWhenReferencedAsDependency": "false", 
-      "LinkAllContent": "false", 
-      "SystemLibrary": "false", 
-      "Name": "#SysTypes", 
-      "DefaultResolution": "SysTypes, * (System)", 
-      "PublishSymbolsInContainer": "false", 
-      "Namespace": "SysTypes"
     }
   ], 
   "link_always": false, 
