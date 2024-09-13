@@ -325,7 +325,6 @@ def handleImagePool(creationObject, name, path, ext):
 
 
 def handleTextList(creationObject, name, path, ext, isGlobal):
-    print("Handling Text List: ", name)
     loaded = fileContent(path + ext)
     textListJson = json.loads(loaded)
     if isGlobal:
@@ -619,7 +618,7 @@ def loopDir(creationObject, placementObject, path, sort):
 #                      | |
 #                      |_|
 #######################################################################
-print("Importer V0.0.1")
+print("Importer V0.0.2")
 
 if projects.primary is None:
     structPath = os.path.dirname(os.path.dirname(sys.argv[0]))

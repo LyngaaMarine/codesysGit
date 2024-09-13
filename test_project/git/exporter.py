@@ -33,7 +33,7 @@ def encodeMatch(match):
 
 
 def encodeObjectName(object):
-    name = re.sub(r"[^A-Za-z0-9 _-]", encodeMatch, object.get_name())
+    name = re.sub(r"[^A-Za-z0-9 _-]", encodeMatch, object.get_name()).rstrip()
     return name
 
 
@@ -314,7 +314,6 @@ def handleTextList(object, path, isGlobal):
         )
     for i in range(object.languagecount()):
         allInfo["LanguageList"].append(object.getlanguage(i))
-    print(allInfo)
     json_data = json.dumps(allInfo, indent=2, ensure_ascii=False)
     with codecs.open(path + ".json", "w", encoding="utf-8") as file:
         file.write(json_data)
@@ -576,7 +575,7 @@ def loopObjects(object, path):
 #                      | |
 #                      |_|
 #######################################################################
-print("Exporter V0.0.1")
+print("Exporter V0.0.2")
 
 if projects.primary is None:
     structPath = os.path.dirname(os.path.dirname(sys.argv[0]))

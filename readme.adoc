@@ -7,6 +7,7 @@
 - Visualization, Visualization Manager, Application, Symbol Configuration, Project Settings are stored in the codesys XML format, and will not merge correctly, so changes to these must be handled manually
 - WebVisu objects are exported and imported as part of the Visualization Manager
 - Global Text List is not exported or imported, but it is generated on each import, but it does not keep the language settings
+- All libraries are updated to the latest version due to missing features in codesys
 
 == How it works
 You need to have the project structe like in the test_project example, though the only nessessary files are the project folder and the git folder, and you only really need the importer and exporter scripts from the git folder.
@@ -27,5 +28,8 @@ The project is not completely bullet proof, and there may be error codes, this i
 
 == Changelog
 
+- *0.0.2* +
+Fixed issue where folder names with trailing whitespace would cause the exporter to fail, due to whitespace in the paths.
+
 - *0.0.1* +
-Initial Release
+Initial Release.
