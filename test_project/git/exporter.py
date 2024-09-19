@@ -38,7 +38,7 @@ def encodeObjectName(object):
 
 
 def writeDataToFileUTF8(data, path):
-    f = io.open(file=path, mode="w", encoding="utf-8")
+    f = io.open(file=path, mode="w", newline="\n", encoding="utf-8")
     f.write(data.encode().decode("unicode_escape"))
     f.close()
 
@@ -79,9 +79,8 @@ def fileContent(path):
 
 
 def writeDataToFile(data, path):
-    f = open(path, "w")
-    f.write(data)
-    f.close()
+    with io.open(path, "w", newline="\n", encoding="utf-8") as f:
+        f.write(data)
 
 
 timeStampFinder = re.compile(
@@ -96,36 +95,36 @@ def handleNativeExport(object, path, recursive):
 
 
 def textExportDeclImpl(object, path):
-    f = open(path + ".st", "w")
-    f.write(
-        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-    )
-    if object.has_textual_declaration:
-        f.write(object.textual_declaration.text.encode("utf-8"))
-    f.write("\n!__IMPLEMENTATION__!\n")
-    if object.has_textual_implementation:
-        f.write(object.textual_implementation.text.encode("utf-8"))
-    f.close()
+    with io.open(path + ".st", "w", newline="\n", encoding="utf-8") as f:
+        f.write(
+            json.dumps(getObjectBuildProperties(object), indent=2)
+            + "\n!__DECLARATION__!\n"
+        )
+        if object.has_textual_declaration:
+            f.write(object.textual_declaration.text)
+        f.write("\n!__IMPLEMENTATION__!\n")
+        if object.has_textual_implementation:
+            f.write(object.textual_implementation.text)
 
 
 def textExportDecl(object, path):
-    f = open(path + ".st", "w")
-    f.write(
-        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-    )
-    if object.has_textual_declaration:
-        f.write(object.textual_declaration.text.encode("utf-8"))
-    f.close()
+    with io.open(path + ".st", "w", newline="\n", encoding="utf-8") as f:
+        f.write(
+            json.dumps(getObjectBuildProperties(object), indent=2)
+            + "\n!__DECLARATION__!\n"
+        )
+        if object.has_textual_declaration:
+            f.write(object.textual_declaration.text)
 
 
 def textExportImpl(object, path):
-    f = open(path + ".st", "w")
-    f.write(
-        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-    )
-    if object.has_textual_implementation:
-        f.write(object.textual_implementation.text.encode("utf-8"))
-    f.close()
+    with io.open(path + ".st", "w", newline="\n", encoding="utf-8") as f:
+        f.write(
+            json.dumps(getObjectBuildProperties(object), indent=2)
+            + "\n!__DECLARATION__!\n"
+        )
+        if object.has_textual_implementation:
+            f.write(object.textual_implementation.text)
 
 
 # ###########################################################################################################################################
@@ -153,33 +152,33 @@ def handleTextType(object, path, designator):
 
 def handleProperty(object, path):
     path = os.path.join(path, "%PRO%" + encodeObjectName(object))
-    f = open(path + ".st", "w")
-    f.write(
-        json.dumps(getObjectBuildProperties(object), indent=2) + "\n!__DECLARATION__!\n"
-    )
-    if object.has_textual_declaration:
-        f.write(object.textual_declaration.text.encode("utf-8"))
-    f.write("\n!__GETTER__!\n")
-    get = object.find("Get")
-    if len(get) > 0:
-        getter = get[0]
-        if getter:
-            if getter.has_textual_declaration:
-                f.write(getter.textual_declaration.text.encode("utf-8"))
-            f.write("\n!__IMPLEMENTATION__!\n")
-            if getter.has_textual_implementation:
-                f.write(getter.textual_implementation.text.encode("utf-8"))
-    f.write("\n!__SETTER__!\n")
-    set = object.find("Set")
-    if len(set) > 0:
-        setter = set[0]
-        if setter:
-            if setter.has_textual_declaration:
-                f.write(setter.textual_declaration.text.encode("utf-8"))
-            f.write("\n!__IMPLEMENTATION__!\n")
-            if setter.has_textual_implementation:
-                f.write(setter.textual_implementation.text.encode("utf-8"))
-    f.close()
+    with io.open(path + ".st", "w", newline="\n", encoding="utf-8") as f:
+        f.write(
+            json.dumps(getObjectBuildProperties(object), indent=2)
+            + "\n!__DECLARATION__!\n"
+        )
+        if object.has_textual_declaration:
+            f.write(object.textual_declaration.text.encode("utf-8"))
+        f.write("\n!__GETTER__!\n")
+        get = object.find("Get")
+        if len(get) > 0:
+            getter = get[0]
+            if getter:
+                if getter.has_textual_declaration:
+                    f.write(getter.textual_declaration.text.encode("utf-8"))
+                f.write("\n!__IMPLEMENTATION__!\n")
+                if getter.has_textual_implementation:
+                    f.write(getter.textual_implementation.text.encode("utf-8"))
+        f.write("\n!__SETTER__!\n")
+        set = object.find("Set")
+        if len(set) > 0:
+            setter = set[0]
+            if setter:
+                if setter.has_textual_declaration:
+                    f.write(setter.textual_declaration.text.encode("utf-8"))
+                f.write("\n!__IMPLEMENTATION__!\n")
+                if setter.has_textual_implementation:
+                    f.write(setter.textual_implementation.text.encode("utf-8"))
 
 
 def handlePersistentVariables(object, path):
@@ -575,7 +574,7 @@ def loopObjects(object, path):
 #                      | |
 #                      |_|
 #######################################################################
-print("Exporter V0.0.2")
+print("Exporter V0.0.3")
 
 if projects.primary is None:
     structPath = os.path.dirname(os.path.dirname(sys.argv[0]))

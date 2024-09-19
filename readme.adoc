@@ -28,6 +28,9 @@ The project is not completely bullet proof, and there may be error codes, this i
 
 == Changelog
 
+- *0.0.3* +
+Changed all line ending exports to be LF to not falsly trigger git diff.
+
 - *0.0.2* +
 Fixed issue where folder names with trailing whitespace would cause the exporter to fail, due to whitespace in the paths.
 

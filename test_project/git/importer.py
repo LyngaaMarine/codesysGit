@@ -618,7 +618,7 @@ def loopDir(creationObject, placementObject, path, sort):
 #                      | |
 #                      |_|
 #######################################################################
-print("Importer V0.0.2")
+print("Importer V0.0.3")
 
 if projects.primary is None:
     structPath = os.path.dirname(os.path.dirname(sys.argv[0]))
