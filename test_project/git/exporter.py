@@ -336,14 +336,32 @@ def handleSymbols(object, path):
 
 def handleVisualizationManager(object, path):
     path = os.path.join(path, "%VIMA%" + encodeObjectName(object))
-    handleNativeExport(object, path + ".xml", True)
+    handleNativeExport(object, path + ".xml", False)
     loopObjects(object, path)
 
 
 def handleWebVisu(object, path):
-    handleNativeExport(
-        object, os.path.join(path, "%WEVI%" + encodeObjectName(object)) + ".xml", True
+    path = os.path.join(path, "%WEVI%" + encodeObjectName(object))
+    object.export_native(path + ".xml", True)
+    tree = ET.parse(path + ".xml")
+    os.remove(path + ".xml")
+    root = tree.getroot()
+    viewSettings = root.find(
+        './StructuredView/Single/List2/Single/Single[@Name="Object"]/Single[@Name="ViewSettings"]'
     )
+    settings = []
+    if viewSettings is not None:
+        for child in viewSettings:
+            if child.tag == "Single":
+                settings.append(
+                    {
+                        "name": child.get("Name"),
+                        "type": child.get("Type"),
+                        "value": child.text or "",
+                    }
+                )
+    data = {"ViewSettings": settings}
+    writeDataToFile(json.dumps(data, indent=2), path + ".json")
 
 
 def handleVisualization(object, path):
@@ -523,9 +541,8 @@ def handleObject(object, path):
     # Visu
     elif type == "4d3fdb8f-ab50-4c35-9d3a-d4bb9bb9a628":  # Visualization Manager
         handleVisualizationManager(object, path)
-    # elif type == "0fdbf158-1ae0-47d9-9269-cd84be308e9d":  # Visualization Manager
-    # Webvisu is skipped as they are included in the visu manager file
-    #     handleWebVisu(object, path)
+    elif type == "0fdbf158-1ae0-47d9-9269-cd84be308e9d":  # WebVisu
+        handleWebVisu(object, path)
     elif type == "f18bec89-9fef-401d-9953-2f11739a6808":  # Visualization
         handleVisualization(object, path)
 

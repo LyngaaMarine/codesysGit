@@ -392,8 +392,54 @@ def handleVisuManager(application, name, path, ext):
     loopDir(self, None, path, True)
 
 
-# def handleWebVisu(visuManager, name, path, ext):
-#     visuManager.import_native(path + ext)
+def handleWebVisuJson(creationObject, name, path, ext):
+    jsonData = json.loads(fileContent(path + ext))
+    settingsXml = ""
+    for setting in jsonData["ViewSettings"]:
+        settingsXml += (
+            '<Single Name="'
+            + setting["name"]
+            + '" Type="'
+            + setting["type"]
+            + '">'
+            + setting["value"]
+            + "</Single>"
+        )
+    extData = (
+        '<ExportFile><StructuredView Guid="{21af5390-2942-461a-bf89-951aaf6999f1}">'
+        '<Single xml:space="preserve" Type="{3daac5e4-660e-42e4-9cea-3711b98bfb63}" Method="IArchivable">'
+        '<Null Name="Profile" />'
+        '<List2 Name="EntryList">'
+        '<Single Type="{6198ad31-4b98-445c-927f-3258a0e82fe3}" Method="IArchivable">'
+        '<Single Name="IsRoot" Type="bool">True</Single>'
+        '<Single Name="MetaObject" Type="{81297157-7ec9-45ce-845e-84cab2b88ade}" Method="IArchivable">'
+        '<Single Name="Guid" Type="System.Guid">91a6c984-c723-4eab-a0d9-11272848816c</Single>'
+        '<Single Name="ParentGuid" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>'
+        '<Single Name="Name" Type="string">' + name + "</Single>"
+        '<Dictionary Type="{2c41fa04-1834-41c1-816e-303c7aa2c05b}" Name="Properties" />'
+        '<Single Name="TypeGuid" Type="System.Guid">0fdbf158-1ae0-47d9-9269-cd84be308e9d</Single>'
+        '<Null Name="EmbeddedTypeGuids" />'
+        '<Single Name="Timestamp" Type="long">0</Single>'
+        "</Single>"
+        '<Single Name="Object" Type="{0fdbf158-1ae0-47d9-9269-cd84be308e9d}" Method="IArchivable">'
+        '<Single Name="ViewSettings" Type="{00207769-37aa-45a4-ae43-8435c5f1880b}" Method="IArchivable">'
+        + settingsXml
+        + "</Single>"
+        "</Single>"
+        '<Single Name="ParentSVNodeGuid" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>'
+        '<Array Name="Path" Type="string" />'
+        '<Single Name="Index" Type="int">-1</Single>'
+        "</Single>"
+        "</List2>"
+        '<Null Name="ProfileName" />'
+        "</Single></StructuredView></ExportFile>"
+    )
+    writeTempFile(extData)
+    creationObject.import_native(tempFilePath)
+
+
+def handleWebVisuXml(creationObject, path, ext):
+    creationObject.import_native(path + ext)
 
 
 def handleVisu(creationObject, path, ext):
@@ -556,9 +602,10 @@ def handleFile(creationObject, placementObject, path, file):
         # # Visu
         elif type == "%VIMA%" and ext == ".xml":
             handleVisuManager(creationObject, objectname, path, ext)
-        # elif type == "%WEVI%" and ext == ".xml":
-        # Webvisu is skipped as they are included in the visu manager file
-        #     handleWebVisu(creationObject, objectname, path, ext)
+        elif type == "%WEVI%" and ext == ".json":
+            handleWebVisuJson(creationObject, objectname, path, ext)
+        elif type == "%WEVI%" and ext == ".xml":
+            handleWebVisuXml(creationObject, path, ext)
         elif type == "%VISU%" and ext == ".xml":
             handleVisu(creationObject, path, ext)
 

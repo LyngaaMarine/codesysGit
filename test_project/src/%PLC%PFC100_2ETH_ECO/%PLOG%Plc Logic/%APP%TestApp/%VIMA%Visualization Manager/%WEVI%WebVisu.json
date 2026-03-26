@@ -1,0 +1,89 @@
+{
+  "ViewSettings": [
+    {
+      "name": "StartVisu",
+      "type": "string",
+      "value": "Visualization"
+    },
+    {
+      "name": "HtmFileName",
+      "type": "string",
+      "value": "webvisu"
+    },
+    {
+      "name": "MainStartHtm",
+      "type": "bool",
+      "value": "True"
+    },
+    {
+      "name": "UpdateRate",
+      "type": "int",
+      "value": "200"
+    },
+    {
+      "name": "CommBufferSize",
+      "type": "int",
+      "value": "50000"
+    },
+    {
+      "name": "BestFit",
+      "type": "bool",
+      "value": "True"
+    },
+    {
+      "name": "ClientSizeMode",
+      "type": "{c37fe731-4f69-4d98-82fe-4f9aefbe200d}",
+      "value": "AutoDetect"
+    },
+    {
+      "name": "ClientSizeX",
+      "type": "int",
+      "value": "1280"
+    },
+    {
+      "name": "ClientSizeY",
+      "type": "int",
+      "value": "1024"
+    },
+    {
+      "name": "ForceWebVisuClient",
+      "type": "bool",
+      "value": "False"
+    },
+    {
+      "name": "Antialiasing",
+      "type": "bool",
+      "value": "True"
+    },
+    {
+      "name": "ClientOperationType",
+      "type": "{bd122c9a-5824-461f-8b56-d89816d314bf}",
+      "value": "Touchscreen"
+    },
+    {
+      "name": "ScaleTypeIsotropic",
+      "type": "bool",
+      "value": "False"
+    },
+    {
+      "name": "UseScalingOptionsForDialogs",
+      "type": "bool",
+      "value": "True"
+    },
+    {
+      "name": "HandleTouchEvents",
+      "type": "bool",
+      "value": "True"
+    },
+    {
+      "name": "LoginVisu",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "FillBackground",
+      "type": "bool",
+      "value": "True"
+    }
+  ]
+}
