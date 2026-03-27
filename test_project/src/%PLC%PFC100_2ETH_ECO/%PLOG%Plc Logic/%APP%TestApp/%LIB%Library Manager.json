@@ -8,7 +8,7 @@
       "LinkAllContent": "false", 
       "SystemLibrary": "false", 
       "Name": "#SysDir", 
-      "DefaultResolution": "SysDir, 3.5.15.0 (System)", 
+      "DefaultResolution": "SysDir, 3.5.17.0 (System)", 
       "PublishSymbolsInContainer": "false", 
       "Namespace": "SysDir"
     }, 
@@ -17,7 +17,7 @@
       "LinkAllContent": "false", 
       "SystemLibrary": "false", 
       "Name": "#SysFile", 
-      "DefaultResolution": "SysFile, 3.5.15.0 (System)", 
+      "DefaultResolution": "SysFile, 3.5.17.0 (System)", 
       "PublishSymbolsInContainer": "false", 
       "Namespace": "SysFile"
     }, 

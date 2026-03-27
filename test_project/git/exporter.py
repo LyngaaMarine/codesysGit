@@ -591,7 +591,7 @@ def loopObjects(object, path):
 #                      | |
 #                      |_|
 #######################################################################
-print("Exporter V0.0.3")
+print("Exporter V0.0.4")
 
 if projects.primary is None:
     structPath = os.path.dirname(os.path.dirname(sys.argv[0]))

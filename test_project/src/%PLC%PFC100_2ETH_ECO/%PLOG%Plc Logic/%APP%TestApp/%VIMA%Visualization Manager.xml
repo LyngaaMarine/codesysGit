@@ -77,18 +77,18 @@
             </Entry>
             <Entry>
               <Key>
-                <Single Type="string">FB_Exit</Single>
-              </Key>
-              <Value>
-                <Single Type="System.Guid">49346e75-b24a-434a-9525-4447deadd3a4</Single>
-              </Value>
-            </Entry>
-            <Entry>
-              <Key>
                 <Single Type="string">FB_Reinit</Single>
               </Key>
               <Value>
                 <Single Type="System.Guid">1194727b-908e-4b4c-93b3-cfd81dc8e95a</Single>
+              </Value>
+            </Entry>
+            <Entry>
+              <Key>
+                <Single Type="string">FB_Exit</Single>
+              </Key>
+              <Value>
+                <Single Type="System.Guid">49346e75-b24a-434a-9525-4447deadd3a4</Single>
               </Value>
             </Entry>
           </Dictionary>
@@ -517,6 +517,14 @@
             </Entry>
             <Entry>
               <Key>
+                <Single Type="string">ExecuteMouseUp</Single>
+              </Key>
+              <Value>
+                <Single Type="System.Guid">2db73881-0b3b-485f-9600-5d2832c933cb</Single>
+              </Value>
+            </Entry>
+            <Entry>
+              <Key>
                 <Single Type="string">Init</Single>
               </Key>
               <Value>
@@ -541,26 +549,18 @@
             </Entry>
             <Entry>
               <Key>
+                <Single Type="string">GetElementInfo</Single>
+              </Key>
+              <Value>
+                <Single Type="System.Guid">d06b95aa-657c-4d34-9885-fd7e8b712d76</Single>
+              </Value>
+            </Entry>
+            <Entry>
+              <Key>
                 <Single Type="string">ExecuteMouseDown</Single>
               </Key>
               <Value>
                 <Single Type="System.Guid">07e6242f-1e58-4dd6-8454-cf86b173cdd1</Single>
-              </Value>
-            </Entry>
-            <Entry>
-              <Key>
-                <Single Type="string">ExecuteMouseUp</Single>
-              </Key>
-              <Value>
-                <Single Type="System.Guid">2db73881-0b3b-485f-9600-5d2832c933cb</Single>
-              </Value>
-            </Entry>
-            <Entry>
-              <Key>
-                <Single Type="string">ExecuteMouseEnter</Single>
-              </Key>
-              <Value>
-                <Single Type="System.Guid">709586fb-9aa0-4958-99f9-b6332385b86f</Single>
               </Value>
             </Entry>
             <Entry>
@@ -573,18 +573,18 @@
             </Entry>
             <Entry>
               <Key>
-                <Single Type="string">GetElementInfo</Single>
+                <Single Type="string">Initialize</Single>
               </Key>
               <Value>
-                <Single Type="System.Guid">d06b95aa-657c-4d34-9885-fd7e8b712d76</Single>
+                <Single Type="System.Guid">f47003f1-c87d-4dee-861d-549d9ed4c2cd</Single>
               </Value>
             </Entry>
             <Entry>
               <Key>
-                <Single Type="string">abstrGetDefaultCursor</Single>
+                <Single Type="string">ExecuteMouseMove</Single>
               </Key>
               <Value>
-                <Single Type="System.Guid">f58ee058-c033-41f6-9f89-894ebe540b63</Single>
+                <Single Type="System.Guid">981b2698-3300-418b-a2f0-69c9ac120aa6</Single>
               </Value>
             </Entry>
             <Entry>
@@ -613,18 +613,18 @@
             </Entry>
             <Entry>
               <Key>
-                <Single Type="string">ExecuteMouseMove</Single>
+                <Single Type="string">abstrGetDefaultCursor</Single>
               </Key>
               <Value>
-                <Single Type="System.Guid">981b2698-3300-418b-a2f0-69c9ac120aa6</Single>
+                <Single Type="System.Guid">f58ee058-c033-41f6-9f89-894ebe540b63</Single>
               </Value>
             </Entry>
             <Entry>
               <Key>
-                <Single Type="string">Initialize</Single>
+                <Single Type="string">ExecuteMouseEnter</Single>
               </Key>
               <Value>
-                <Single Type="System.Guid">f47003f1-c87d-4dee-861d-549d9ed4c2cd</Single>
+                <Single Type="System.Guid">709586fb-9aa0-4958-99f9-b6332385b86f</Single>
               </Value>
             </Entry>
             <Entry>

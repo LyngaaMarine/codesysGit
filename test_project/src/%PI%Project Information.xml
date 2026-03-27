@@ -18,30 +18,6 @@
         <Dictionary Type="System.Collections.Hashtable" Name="Properties">
           <Entry>
             <Key>
-              <Single Type="string">customKey</Single>
-            </Key>
-            <Value>
-              <Single Type="string">customKeyVal</Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
-              <Single Type="string">testNumber</Single>
-            </Key>
-            <Value>
-              <Single Type="int">69420</Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
-              <Single Type="string">Project</Single>
-            </Key>
-            <Value>
-              <Single Type="string"></Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
               <Single Type="string">Description</Single>
             </Key>
             <Value>
@@ -50,10 +26,10 @@
           </Entry>
           <Entry>
             <Key>
-              <Single Type="string">Author</Single>
+              <Single Type="string">Project</Single>
             </Key>
             <Value>
-              <Single Type="string">TestPers</Single>
+              <Single Type="string"></Single>
             </Value>
           </Entry>
           <Entry>
@@ -68,38 +44,6 @@
           </Entry>
           <Entry>
             <Key>
-              <Single Type="string">test3</Single>
-            </Key>
-            <Value>
-              <Single Type="int">88</Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
-              <Single Type="string">test2</Single>
-            </Key>
-            <Value>
-              <Single Type="bool">True</Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
-              <Single Type="string">Company</Single>
-            </Key>
-            <Value>
-              <Single Type="string">TestComp</Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
-              <Single Type="string">testDate</Single>
-            </Key>
-            <Value>
-              <Single Type="System.DateTime">2024-05-20</Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
               <Single Type="string">Title</Single>
             </Key>
             <Value>
@@ -108,18 +52,10 @@
           </Entry>
           <Entry>
             <Key>
-              <Single Type="string">test</Single>
+              <Single Type="string">Author</Single>
             </Key>
             <Value>
-              <Single Type="string">test</Single>
-            </Value>
-          </Entry>
-          <Entry>
-            <Key>
-              <Single Type="string">DefaultNamespace</Single>
-            </Key>
-            <Value>
-              <Single Type="string">TestLab</Single>
+              <Single Type="string">TestPers</Single>
             </Value>
           </Entry>
           <Entry>
@@ -132,10 +68,74 @@
           </Entry>
           <Entry>
             <Key>
+              <Single Type="string">test2</Single>
+            </Key>
+            <Value>
+              <Single Type="bool">True</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">test</Single>
+            </Key>
+            <Value>
+              <Single Type="string">test</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
               <Single Type="string">Placeholder</Single>
             </Key>
             <Value>
               <Single Type="string">TestPlac</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">DefaultNamespace</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestLab</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">test3</Single>
+            </Key>
+            <Value>
+              <Single Type="int">88</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">Company</Single>
+            </Key>
+            <Value>
+              <Single Type="string">TestComp</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">testNumber</Single>
+            </Key>
+            <Value>
+              <Single Type="int">69420</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">customKey</Single>
+            </Key>
+            <Value>
+              <Single Type="string">customKeyVal</Single>
+            </Value>
+          </Entry>
+          <Entry>
+            <Key>
+              <Single Type="string">testDate</Single>
+            </Key>
+            <Value>
+              <Single Type="System.DateTime">2024-05-20</Single>
             </Value>
           </Entry>
         </Dictionary>

@@ -1,89 +1,89 @@
 {
   "ViewSettings": [
     {
-      "name": "StartVisu",
-      "type": "string",
-      "value": "Visualization_1"
-    },
+      "name": "StartVisu", 
+      "value": "Visualization_1", 
+      "type": "string"
+    }, 
     {
-      "name": "HtmFileName",
-      "type": "string",
-      "value": "webvisuhmi"
-    },
+      "name": "HtmFileName", 
+      "value": "webvisuhmi", 
+      "type": "string"
+    }, 
     {
-      "name": "MainStartHtm",
-      "type": "bool",
-      "value": "False"
-    },
+      "name": "MainStartHtm", 
+      "value": "False", 
+      "type": "bool"
+    }, 
     {
-      "name": "UpdateRate",
-      "type": "int",
-      "value": "200"
-    },
+      "name": "UpdateRate", 
+      "value": "250", 
+      "type": "int"
+    }, 
     {
-      "name": "CommBufferSize",
-      "type": "int",
-      "value": "50000"
-    },
+      "name": "CommBufferSize", 
+      "value": "40000", 
+      "type": "int"
+    }, 
     {
-      "name": "BestFit",
-      "type": "bool",
-      "value": "True"
-    },
+      "name": "BestFit", 
+      "value": "True", 
+      "type": "bool"
+    }, 
     {
-      "name": "ClientSizeMode",
-      "type": "{c37fe731-4f69-4d98-82fe-4f9aefbe200d}",
-      "value": "AutoDetect"
-    },
+      "name": "ClientSizeMode", 
+      "value": "AutoDetect", 
+      "type": "{c37fe731-4f69-4d98-82fe-4f9aefbe200d}"
+    }, 
     {
-      "name": "ClientSizeX",
-      "type": "int",
-      "value": "1280"
-    },
+      "name": "ClientSizeX", 
+      "value": "1080", 
+      "type": "int"
+    }, 
     {
-      "name": "ClientSizeY",
-      "type": "int",
-      "value": "1024"
-    },
+      "name": "ClientSizeY", 
+      "value": "1024", 
+      "type": "int"
+    }, 
     {
-      "name": "ForceWebVisuClient",
-      "type": "bool",
-      "value": "False"
-    },
+      "name": "ForceWebVisuClient", 
+      "value": "False", 
+      "type": "bool"
+    }, 
     {
-      "name": "Antialiasing",
-      "type": "bool",
-      "value": "True"
-    },
+      "name": "Antialiasing", 
+      "value": "True", 
+      "type": "bool"
+    }, 
     {
-      "name": "ClientOperationType",
-      "type": "{bd122c9a-5824-461f-8b56-d89816d314bf}",
-      "value": "Touchscreen"
-    },
+      "name": "ClientOperationType", 
+      "value": "Touchscreen", 
+      "type": "{bd122c9a-5824-461f-8b56-d89816d314bf}"
+    }, 
     {
-      "name": "ScaleTypeIsotropic",
-      "type": "bool",
-      "value": "False"
-    },
+      "name": "ScaleTypeIsotropic", 
+      "value": "False", 
+      "type": "bool"
+    }, 
     {
-      "name": "UseScalingOptionsForDialogs",
-      "type": "bool",
-      "value": "True"
-    },
+      "name": "UseScalingOptionsForDialogs", 
+      "value": "True", 
+      "type": "bool"
+    }, 
     {
-      "name": "HandleTouchEvents",
-      "type": "bool",
-      "value": "True"
-    },
+      "name": "HandleTouchEvents", 
+      "value": "True", 
+      "type": "bool"
+    }, 
     {
-      "name": "LoginVisu",
-      "type": "string",
-      "value": ""
-    },
+      "name": "LoginVisu", 
+      "value": "", 
+      "type": "string"
+    }, 
     {
-      "name": "FillBackground",
-      "type": "bool",
-      "value": "True"
+      "name": "FillBackground", 
+      "value": "True", 
+      "type": "bool"
     }
   ]
 }
