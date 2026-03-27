@@ -9,6 +9,7 @@ import shutil
 import sys
 import time
 import traceback
+import xml.etree.ElementTree as ET
 
 
 # ###########################################################################################################################################
@@ -442,7 +443,58 @@ def handleWebVisuXml(creationObject, path, ext):
     creationObject.import_native(path + ext)
 
 
-def handleVisu(creationObject, path, ext):
+def jsonToXml(node):
+    element = ET.Element(node["tag"])
+    if "attr" in node:
+        for key, value in node["attr"].items():
+            element.set(key, value)
+    if "children" in node:
+        for child_node in node["children"]:
+            element.append(jsonToXml(child_node))
+    elif "text" in node:
+        element.text = node["text"]
+    return element
+
+
+def handleVisuJson(creationObject, name, path, ext):
+    jsonData = json.loads(fileContent(path + ext))
+    objectElem = ET.Element("Single")
+    objectElem.set("Name", "Object")
+    objectElem.set("Type", "{f18bec89-9fef-401d-9953-2f11739a6808}")
+    objectElem.set("Method", "IArchivable")
+    for child_node in jsonData["Object"]:
+        objectElem.append(jsonToXml(child_node))
+    objectXml = ET.tostring(objectElem, encoding="unicode")
+    extData = (
+        '<ExportFile><StructuredView Guid="{21af5390-2942-461a-bf89-951aaf6999f1}">'
+        '<Single xml:space="preserve" Type="{3daac5e4-660e-42e4-9cea-3711b98bfb63}" Method="IArchivable">'
+        '<Null Name="Profile" />'
+        '<List2 Name="EntryList">'
+        '<Single Type="{6198ad31-4b98-445c-927f-3258a0e82fe3}" Method="IArchivable">'
+        '<Single Name="IsRoot" Type="bool">True</Single>'
+        '<Single Name="MetaObject" Type="{81297157-7ec9-45ce-845e-84cab2b88ade}" Method="IArchivable">'
+        '<Single Name="Guid" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>'
+        '<Single Name="ParentGuid" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>'
+        '<Single Name="Name" Type="string">' + name + "</Single>"
+        '<Dictionary Type="{2c41fa04-1834-41c1-816e-303c7aa2c05b}" Name="Properties" />'
+        '<Single Name="TypeGuid" Type="System.Guid">f18bec89-9fef-401d-9953-2f11739a6808</Single>'
+        '<Null Name="EmbeddedTypeGuids" />'
+        '<Single Name="Timestamp" Type="long">0</Single>'
+        "</Single>"
+        + objectXml
+        + '<Single Name="ParentSVNodeGuid" Type="System.Guid">00000000-0000-0000-0000-000000000000</Single>'
+        '<Array Name="Path" Type="string" />'
+        '<Single Name="Index" Type="int">-1</Single>'
+        "</Single>"
+        "</List2>"
+        '<Null Name="ProfileName" />'
+        "</Single></StructuredView></ExportFile>"
+    )
+    writeTempFile(extData)
+    creationObject.import_native(tempFilePath)
+
+
+def handleVisuXml(creationObject, path, ext):
     creationObject.import_native(path + ext)
 
 
@@ -606,8 +658,10 @@ def handleFile(creationObject, placementObject, path, file):
             handleWebVisuJson(creationObject, objectname, path, ext)
         elif type == "%WEVI%" and ext == ".xml":
             handleWebVisuXml(creationObject, path, ext)
+        elif type == "%VISU%" and ext == ".json":
+            handleVisuJson(creationObject, objectname, path, ext)
         elif type == "%VISU%" and ext == ".xml":
-            handleVisu(creationObject, path, ext)
+            handleVisuXml(creationObject, path, ext)
 
         # Device
         elif type == "%PLC%" and ext == ".json":

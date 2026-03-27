@@ -364,10 +364,33 @@ def handleWebVisu(object, path):
     writeDataToFile(json.dumps(data, indent=2), path + ".json")
 
 
+def xmlToJson(element):
+    node = {"tag": element.tag}
+    if element.attrib:
+        node["attr"] = dict(element.attrib)
+    children = list(element)
+    if children:
+        node["children"] = [xmlToJson(child) for child in children]
+    elif element.text is not None:
+        node["text"] = element.text
+    return node
+
+
 def handleVisualization(object, path):
-    handleNativeExport(
-        object, os.path.join(path, "%VISU%" + encodeObjectName(object)) + ".xml", False
+    path = os.path.join(path, "%VISU%" + encodeObjectName(object))
+    object.export_native(path + ".xml", False)
+    tree = ET.parse(path + ".xml")
+    os.remove(path + ".xml")
+    root = tree.getroot()
+    objectElem = root.find(
+        './StructuredView/Single/List2/Single/Single[@Name="Object"]'
     )
+    objectChildren = []
+    if objectElem is not None:
+        for child in objectElem:
+            objectChildren.append(xmlToJson(child))
+    data = {"Object": objectChildren}
+    writeDataToFile(json.dumps(data, indent=2), path + ".json")
 
 
 # ###########################################################################################################################################
